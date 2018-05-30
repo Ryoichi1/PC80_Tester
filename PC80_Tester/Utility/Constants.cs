@@ -11,9 +11,9 @@ namespace PC80_Tester
         //作業者へのメッセージ
         public const string MessOpecode = "工番を入力してください";
         public const string MessOperator = "作業者名を選択してください";
-        public const string MessSet = "製品をセットして開始ボタンを押してください";
+        public const string MessSet = "製品をセットしてレバーを下げてください";
         public const string MessRemove = "製品を取り外してください";
-        public const string MessLabel = "確認を押して、ラベルを貼り付けてください";
+        public const string MessLabel = "ラベルを貼り付けたら、確認ボタンを押してください";
 
         public const string MessWait = "検査中！　しばらくお待ちください・・・";
         public const string MessCheckConnectMachine = "周辺機器の接続を確認してください！";
@@ -23,8 +23,8 @@ namespace PC80_Tester
         public static readonly string filePath_Command = @"C:\PC80\ConfigData\Command.config";
         public static readonly string filePath_CamPropLcd = @"C:\PC80\ConfigData\CameraPropertyForLcd.config";
         public static readonly string filePath_CamPropLed = @"C:\PC80\ConfigData\CameraPropertyForLed.config";
-        public static readonly string filePath_CamPropDef = @"C:\PC80\ConfigData\CameraPropertyForDefault.config";
-        public static readonly string filePath_CamCalFilePath = @"C:\PC80\ConfigData\Camera.xml";
+        public static readonly string filePath_CamLcdCalFilePath = @"C:\PC80\ConfigData\CameraLcd.xml";
+        public static readonly string filePath_CamLedCalFilePath = @"C:\PC80\ConfigData\CameraLed.xml";
 
         public static readonly string filePath_Fig1TempUpLeft = @"C:\PC80\Pic\Fig1tempUpLeft.bmp";
         public static readonly string filePath_Fig1TempUpRight = @"C:\PC80\Pic\Fig1tempUpRight.bmp";

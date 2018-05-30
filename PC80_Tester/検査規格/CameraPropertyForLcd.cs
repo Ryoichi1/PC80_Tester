@@ -11,6 +11,7 @@ namespace PC80_Tester
         public int CloseCnt { get; set; }//クロージング処理時の収縮回数
 
         //カメラプロパティ
+        public int CamNumber { get; set; }
         public double Brightness { get; set; }
         public double Contrast { get; set; }
         public double Hue { get; set; }

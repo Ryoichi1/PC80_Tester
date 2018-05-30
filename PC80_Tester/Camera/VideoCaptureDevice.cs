@@ -49,7 +49,7 @@ namespace AForge.Video.DirectShow
         //private object sourceObject = null;
 
         // time of starting the DirectX graph
-        private DateTime startTime = new DateTime();
+        //private DateTime startTime = new DateTime();
 
         // dummy object to lock for synchronization
         private object sync = new object();

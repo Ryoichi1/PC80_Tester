@@ -20,13 +20,25 @@ namespace PC80_Tester
             LED1, LED2, LED3, LED4
         }
 
-
         const int WIDTH = 640;
         const int HEIGHT = 360;
 
         private static IplImage source = new IplImage(WIDTH, HEIGHT, BitDepth.U8, 3);
-
         public static List<LedSpec> ListLedSpec;
+
+        //被検査基板のLED座標（カラーチェックのため、毎回取得）
+        private static int current_x_led1;
+        private static int current_y_led1;
+
+        private static int current_x_led2;
+        private static int current_y_led2;
+
+        private static int current_x_led3;
+        private static int current_y_led3;
+
+        private static int current_x_led4;
+        private static int current_y_led4;
+
 
         public class LedSpec
         {
@@ -57,20 +69,20 @@ namespace PC80_Tester
             switch (name)
             {
                 case NAME.LED1:
-                    X = Int32.Parse(State.CamPropLed.Led1.Split('/').ToArray()[0]);
-                    Y = Int32.Parse(State.CamPropLed.Led1.Split('/').ToArray()[1]);
+                    X = Int32.Parse(State.CamPropLed.PointLed1.Split('/').ToArray()[0]);
+                    Y = Int32.Parse(State.CamPropLed.PointLed1.Split('/').ToArray()[1]);
                     break;
                 case NAME.LED2:
-                    X = Int32.Parse(State.CamPropLed.Led2.Split('/').ToArray()[0]);
-                    Y = Int32.Parse(State.CamPropLed.Led2.Split('/').ToArray()[1]);
+                    X = Int32.Parse(State.CamPropLed.PointLed2.Split('/').ToArray()[0]);
+                    Y = Int32.Parse(State.CamPropLed.PointLed2.Split('/').ToArray()[1]);
                     break;
                 case NAME.LED3:
-                    X = Int32.Parse(State.CamPropLed.Led3.Split('/').ToArray()[0]);
-                    Y = Int32.Parse(State.CamPropLed.Led3.Split('/').ToArray()[1]);
+                    X = Int32.Parse(State.CamPropLed.PointLed3.Split('/').ToArray()[0]);
+                    Y = Int32.Parse(State.CamPropLed.PointLed3.Split('/').ToArray()[1]);
                     break;
                 case NAME.LED4:
-                    X = Int32.Parse(State.CamPropLed.Led4.Split('/').ToArray()[0]);
-                    Y = Int32.Parse(State.CamPropLed.Led4.Split('/').ToArray()[1]);
+                    X = Int32.Parse(State.CamPropLed.PointLed4.Split('/').ToArray()[0]);
+                    Y = Int32.Parse(State.CamPropLed.PointLed4.Split('/').ToArray()[1]);
                     break;
             }
 
@@ -78,6 +90,9 @@ namespace PC80_Tester
 
         }
 
+        /// <summary>
+        /// メンテナンス画面でのみ使用します
+        /// </summary>
         public static void CheckColorForDebug()
         {
             var side = 20;
@@ -89,11 +104,11 @@ namespace PC80_Tester
             using (IplImage hsv = new IplImage(WIDTH, HEIGHT, BitDepth.U8, 3)) // グレースケール画像格納用の変数
             {
                 //cam1の画像を取得する処理
-                General.cam.FlagTestPic = true;
-                while (General.cam.FlagTestPic) ;
-                using (IplImage src = General.cam.imageForTest.Clone()) // グレースケール画像格納用の変数
+                if (!camLed.GetPic()) return;
+
+                using (IplImage src = General.camLed.imageForTest.Clone())
                 {
-                    General.cam.ResetFlag();
+                    General.camLed.ResetFlag();
                     src.SaveImage(@"C:\PC80\Pic\src.jpg");
                     //RGBからHSVに変換
                     Cv.CvtColor(src, hsv, ColorConversion.BgrToHsv);
@@ -132,7 +147,7 @@ namespace PC80_Tester
                         var rgb = ColorConv.HSV2RGB(CurrentHsv);
                         var color = new SolidColorBrush(Color.FromRgb(rgb.R, rgb.G, rgb.B));
                         color.Opacity = 0.5;
-                        color.Freeze();//これ重要！！！  
+                        color.Freeze();//これ重要！！！ Freezeしないとラベルの色が変化しない  
 
                         //ビューモデルの更新
                         switch (l.name)
@@ -159,29 +174,65 @@ namespace PC80_Tester
             }
         }
 
+        /// <summary>
+        /// LEDを順番に1ケづつ点灯させ、カラーチェック用にLEDの座標を求める
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public static async Task<bool> Check(NAME name)
         {
+            bool result = false;
             try
             {
                 return await Task<bool>.Run(() =>
                 {
-                    State.SetCamPropForLed();
-                    var rePoint = CheckPoint(name);
-                    if (!rePoint.result) return false;
-                    return CheckColor(name, rePoint.x, rePoint.y);
+                    try
+                    {
+                        //LEDの座標が大幅にズレていない && 点灯しているLEDは1ケだけ  の確認
+                        var rePoint = CheckPoint(name);
+
+                        //カラーチェック用の座標を保存
+                        switch (name)
+                        {
+                            case NAME.LED1:
+                                current_x_led1 = rePoint.x;
+                                current_y_led1 = rePoint.y;
+                                break;
+                            case NAME.LED2:
+                                current_x_led2 = rePoint.x;
+                                current_y_led2 = rePoint.y;
+                                break;
+                            case NAME.LED3:
+                                current_x_led3 = rePoint.x;
+                                current_y_led3 = rePoint.y;
+                                break;
+                            case NAME.LED4:
+                                current_x_led4 = rePoint.x;
+                                current_y_led4 = rePoint.y;
+                                break;
+                        }
+
+                        return result = rePoint.result;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
                 });
-            }
-            catch
-            {
-                return false;
             }
             finally
             {
+                if (!result)
+                {
+                    VmTestStatus.Spec = $"規格値 : {name.ToString()}のみ点灯";
+                    VmTestStatus.MeasValue = $"計測値 : 点灯異常 or 位置ズレ";
+                }
+
                 await Task.Delay(700);
             }
         }
 
-        private static bool CheckColor(NAME name, int x, int y)
+        public static async Task<bool> CheckColor(NAME name)
         {
             const int side = 25;
 
@@ -192,67 +243,103 @@ namespace PC80_Tester
             var HueMax = 0.0;
             var HueMin = 0.0;
 
+            var x = 0;
+            var y = 0;
+
+            switch (name)
+            {
+                case NAME.LED1:
+                    x = current_x_led1;
+                    y = current_y_led1;
+                    break;
+                case NAME.LED2:
+                    x = current_x_led2;
+                    y = current_y_led2;
+                    break;
+                case NAME.LED3:
+                    x = current_x_led3;
+                    y = current_y_led3;
+                    break;
+                case NAME.LED4:
+                    x = current_x_led4;
+                    y = current_y_led4;
+                    break;
+            }
+
+            if (!Flags.LightOn)
+            {
+                General.SetLight(true);
+                await Task.Delay(250);
+                //General.camLed.SetWb();
+            }
+
             try
             {
-                using (IplImage hsv = new IplImage(WIDTH, HEIGHT, BitDepth.U8, 3)) // グレースケール画像格納用の変数
+                return await Task<bool>.Run(() =>
                 {
-                    //cam1の画像を取得する処理
-                    if (!cam.GetPic()) return false;
-                    using (IplImage src = cam.imageForTest.Clone()) // グレースケール画像格納用の変数
+                    try
                     {
-                        General.cam.ResetFlag();
-                        //src.SaveImage(@"C:\Users\TSDP00059\Desktop\src.jpg");
-                        //RGBからHSVに変換
-                        Cv.CvtColor(src, hsv, ColorConversion.BgrToHsv);
-                        OpenCvSharp.CPlusPlus.Mat mat = new OpenCvSharp.CPlusPlus.Mat(hsv, true);
-
-                        var ListH = new List<int>();
-                        var ListS = new List<int>();
-                        var ListV = new List<int>();
-
-                        foreach (var i in Enumerable.Range(0, side))
+                        using (IplImage hsv = new IplImage(WIDTH, HEIGHT, BitDepth.U8, 3)) // グレースケール画像格納用の変数
                         {
-                            foreach (var j in Enumerable.Range(0, side))
+                            //cam1の画像を取得する処理
+                            if (!camLed.GetPic()) return false;
+                            using (IplImage src = camLed.imageForTest.Clone())
                             {
-                                var re = mat.At<OpenCvSharp.CPlusPlus.Vec3b>(y - (side / 2) + i, x - (side / 2) + j);
-                                if (re[0] >= 5 && re[1] > 220 && re[2] > 100)//白っぽくないとこを抽出
+                                General.camLed.ResetFlag();
+                                //src.SaveImage(@"C:\Users\TSDP00059\Desktop\src.jpg");
+                                //RGBからHSVに変換
+                                Cv.CvtColor(src, hsv, ColorConversion.BgrToHsv);
+                                OpenCvSharp.CPlusPlus.Mat mat = new OpenCvSharp.CPlusPlus.Mat(hsv, true);
+
+                                var ListH = new List<int>();
+                                var ListS = new List<int>();
+                                var ListV = new List<int>();
+
+                                foreach (var i in Enumerable.Range(0, side))
                                 {
-                                    ListH.Add(re[0]);
-                                    ListS.Add(re[1]);
-                                    ListV.Add(re[2]);
+                                    foreach (var j in Enumerable.Range(0, side))
+                                    {
+                                        var re = mat.At<OpenCvSharp.CPlusPlus.Vec3b>(y - (side / 2) + i, x - (side / 2) + j);
+                                        if (re[0] != 0 && re[1] > 100 && re[2] > 100)//白っぽくないとこを抽出
+                                        {
+                                            ListH.Add(re[0]);
+                                            ListS.Add(re[1]);
+                                            ListV.Add(re[2]);
+                                        }
+                                    }
                                 }
+                                Hue = (ListH.Count != 0) ? ListH.Average() : 0;
+                                Sat = (ListS.Count != 0) ? ListS.Average() : 0;
+                                Val = (ListV.Count != 0) ? ListV.Average() : 0;
+
+
+                                switch (name)
+                                {
+                                    case NAME.LED1:
+                                    case NAME.LED2:
+                                        HueMax = State.Spec.GreenHueMax;
+                                        HueMin = State.Spec.GreenHueMin;
+                                        break;
+                                    case NAME.LED3:
+                                        HueMax = State.Spec.RedHueMax;
+                                        HueMin = State.Spec.RedHueMin;
+                                        break;
+                                    case NAME.LED4:
+                                        HueMax = State.Spec.OrangeHueMax;
+                                        HueMin = State.Spec.OrangeHueMin;
+                                        break;
+                                }
+
+                                return result = (HueMin <= Hue && Hue <= HueMax);
                             }
                         }
-                        Hue = (ListH.Count != 0) ? ListH.Average() : 0;
-                        Sat = (ListS.Count != 0) ? ListS.Average() : 0;
-                        Val = (ListV.Count != 0) ? ListV.Average() : 0;
 
-
-                        switch (name)
-                        {
-                            case NAME.LED1:
-                            case NAME.LED2:
-                                HueMax = State.Spec.GreenHueMax;
-                                HueMin = State.Spec.GreenHueMin;
-                                break;
-                            case NAME.LED3:
-                                HueMax = State.Spec.RedHueMax;
-                                HueMin = State.Spec.RedHueMin;
-                                break;
-                            case NAME.LED4:
-                                HueMax = State.Spec.OrangeHueMax;
-                                HueMin = State.Spec.OrangeHueMin;
-                                break;
-                        }
-
-                        return result = (HueMin <= Hue && Hue <= HueMax);
                     }
-                }
-
-            }
-            catch
-            {
-                return result = false;
+                    catch
+                    {
+                        return result = false;
+                    }
+                });
             }
             finally
             {
@@ -326,22 +413,20 @@ namespace PC80_Tester
             //InitList();
             try
             {
-                cam.ResetFlag();//カメラのフラグを初期化 リトライ時にフラグが初期化できてないとだめ
-                                //例 ＮＧリトライ時は、General.cam.FlagFrame = trueになっていてNGフレーム表示の無限ループにいる
+                camLed.ResetFlag();//カメラのフラグを初期化 リトライ時にフラグが初期化できてないとだめ
+                                   //例 ＮＧリトライ時は、General.cam.FlagFrame = trueになっていてNGフレーム表示の無限ループにいる
 
-                DriveLed(name, true);
-                Sleep(600);
-                cam.GetBlob(true);
+                DriveLed(name, true);//引数で指定したLEDを点灯させる処理
+                Sleep(900);
+                camLed.GetBlob(true);
                 Sleep(1200);
-                var blobInfo = General.cam.blobs.Clone();
-                cam.GetBlob(false);
-                //点灯しているLEDの座標を抽出する（画面半分より下側のブロブを抽出する）
-                var blobLed = blobInfo.Where(b => b.Value.Centroid.Y > 180).ToList();
+                var blobInfo = General.camLed.blobs.Clone().ToList();
+                camLed.GetBlob(false);
 
-                if (blobLed.Count() != 1) return (false, 0, 0);//点灯しないか、もしくは２ケ以上点灯してたらダメ
+                if (blobInfo.Count() != 1) return (false, 0, 0);//点灯しないか、もしくは２ケ以上点灯してたらダメ
 
-                var x = blobLed[0].Value.Centroid.X;
-                var y = blobLed[0].Value.Centroid.Y;
+                var x = blobInfo[0].Value.Centroid.X;
+                var y = blobInfo[0].Value.Centroid.Y;
 
                 var xSpec = GetPpoint(name).x;
                 var ySpec = GetPpoint(name).y;
@@ -355,6 +440,11 @@ namespace PC80_Tester
             catch
             {
                 return (false, 0, 0);
+            }
+            finally
+            {
+                DriveLed(name, false);
+                Sleep(200);
             }
         }
 

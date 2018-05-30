@@ -124,8 +124,8 @@ namespace PC80_Tester
                     Sleep(1000);
 
                     //cam1の画像を取得する処理
-                    General.cam.GetPic();
-                    src = General.cam.imageForTest.Clone();
+                    General.camLcd.GetPic();
+                    src = General.camLcd.imageForTest.Clone();
                     //
                     x -= m;
                     y -= m;
@@ -190,7 +190,7 @@ namespace PC80_Tester
             }
             finally
             {
-                General.cam.ResetFlag();//これ忘れると無限ループにハマる
+                General.camLcd.ResetFlag();//これ忘れると無限ループにハマる
                 src.Dispose();
                 tmp.Dispose();
             }

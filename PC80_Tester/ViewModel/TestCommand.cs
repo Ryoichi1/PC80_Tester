@@ -56,20 +56,18 @@ namespace PC80_Tester
                     while (true)
                     {
                         if (Flags.OtherPage) break;
-                        //Thread.Sleep(200);
+                        Thread.Sleep(400);
 
                         //作業者名、工番が正しく入力されているかの判定
                         if (!Flags.SetOperator)
                         {
                             State.VmTestStatus.Message = Constants.MessOperator;
-                            Flags.EnableTestStart = false;
                             continue;
                         }
 
                         if (!Flags.SetOpecode)
                         {
                             State.VmTestStatus.Message = Constants.MessOpecode;
-                            Flags.EnableTestStart = false;
                             continue;
                         }
 
@@ -77,29 +75,33 @@ namespace PC80_Tester
                         if (!Flags.AllOk周辺機器接続)
                         {
                             State.VmTestStatus.Message = Constants.MessCheckConnectMachine;
-                            Flags.EnableTestStart = false;
                             continue;
                         }
 
-                        dis.BeginInvoke(StopButtonBlinkOn);
-                        State.VmTestStatus.Message = Constants.MessSet;
-                        Flags.EnableTestStart = true;
-                        Flags.Click確認Button = false;
-
-                        while (true)
+                        if (Flags.PressOpenCheckBeforeTest)
                         {
-                            if (Flags.OtherPage || Flags.Click確認Button)
+                            while (true)
                             {
-                                dis.BeginInvoke(StopButtonBlinkOff);
-                                return;
-                            }
-
-                            if (!Flags.SetOperator || !Flags.SetOpecode)
-                            {
-                                dis.BeginInvoke(StopButtonBlinkOff);
-                                goto RETRY;
+                                if (General.CheckPressOpen())
+                                {
+                                    Flags.PressOpenCheckBeforeTest = false;
+                                    break;
+                                }
+                                State.VmTestStatus.Message = "一度プレスのレバーを上げてください！！！";
+                                Thread.Sleep(400);
                             }
                         }
+
+
+                        State.VmTestStatus.Message = Constants.MessSet;
+                        while (true)
+                        {
+                            if (Flags.OtherPage || !General.CheckPressOpen()) return;
+                            if (!Flags.SetOperator || !Flags.SetOpecode) goto RETRY;
+                            Thread.Sleep(400);
+
+                        }
+
 
                     }
 
@@ -107,11 +109,11 @@ namespace PC80_Tester
 
                 if (Flags.OtherPage)//待機中に他のページに遷移したらメソッドを抜ける
                 {
+                    Flags.PressOpenCheckBeforeTest = true;
                     return;
                 }
 
                 State.VmMainWindow.EnableOtherButton = false;
-                State.VmTestStatus.StartButtonContent = Constants.停止;
                 State.VmTestStatus.TestSettingEnable = false;
                 State.VmMainWindow.OperatorEnable = false;
                 await Test();//メインルーチンへ
@@ -147,20 +149,23 @@ namespace PC80_Tester
         //メインルーチン
         public async Task Test()
         {
-            Flags.Click確認Button = false;
             Flags.Testing = true;
 
+            State.VmTestStatus.ButtonStopVis = System.Windows.Visibility.Visible;
             State.VmTestStatus.Message = Constants.MessWait;
 
+            State.VmTestStatus.ButtonStopEnable = true;
             //現在のテーマ透過度の保存
             State.CurrentThemeOpacity = State.VmMainWindow.ThemeOpacity;
             //テーマ透過度を最小にする
             General.SetRadius(true);
 
-            General.cam.ImageOpacity = 1.0;
+            General.camLed.ImageOpacity = 1.0;
+            General.camLcd.ImageOpacity = 1.0;
             State.SetCamPoint();
-            State.SetCamPropForDef();
-            General.cam.Start();//非同期メソッドの中で実行すると、カメラがうまく動作しないので注意！！！
+            State.SetCamPropForLed();
+            State.SetCamPropForLcd();
+            General.camLcd.Start();//非同期メソッドの中で実行すると、カメラがうまく動作しないので注意！！！
             await Task.Delay(2500);
 
             FlagTestTime = true;
@@ -263,6 +268,8 @@ namespace PC80_Tester
                             goto case 5000;
 
                         case 800://LED1(緑) チェック
+                            await General.camLcd.Stop();
+                            General.camLed.Start();
                             if (await TestLed.Check(TestLed.NAME.LED1)) break;
                             goto case 5000;
 
@@ -278,7 +285,29 @@ namespace PC80_Tester
                             if (await TestLed.Check(TestLed.NAME.LED4)) break;
                             goto case 5000;
 
+                        case 804://LED1(緑) チェック
+                            if (await TestLed.CheckColor(TestLed.NAME.LED1)) break;
+                            goto case 5000;
+
+                        case 805://LED2(緑) チェック
+                            if (await TestLed.CheckColor(TestLed.NAME.LED2)) break;
+                            goto case 5000;
+
+                        case 806://LED3(赤) チェック
+                            if (await TestLed.CheckColor(TestLed.NAME.LED3)) break;
+                            goto case 5000;
+
+                        case 807://LED4(橙) チェック
+                            if (await TestLed.CheckColor(TestLed.NAME.LED4))
+                            {
+                                General.SetLight(false);
+                                break;
+                            }
+                            goto case 5000;
+
                         case 900://LCD(FIG1) チェック
+                            await General.camLed.Stop();
+                            General.camLcd.Start();
                             if (await TestLcd.CheckLcd(TestLcd.FIG_NAME.FIG1)) break;
                             goto case 5000;
 
@@ -293,6 +322,7 @@ namespace PC80_Tester
                             FailTitle = d.s.Value;
 
                             General.ResetIo();
+                            await Task.Delay(1000);
                             State.VmTestStatus.IsActiveRing = false;//リング表示してる可能性があるので念のため消す処理
 
                             if (Flags.ClickStopButton) goto FAIL;
@@ -301,7 +331,8 @@ namespace PC80_Tester
                             {
                                 //リトライ履歴リスト更新
                                 State.RetryLogList.Add(FailStepNo.ToString() + "," + FailTitle + "," + System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
-                                General.cam.ResetFlag();//LEDテストでNGになったときは、カメラのフラグを初期化しないとNG枠が出たままになる
+                                General.camLed.ResetFlag();//LEDテストでNGになったときは、カメラのフラグを初期化しないとNG枠が出たままになる
+                                General.camLcd.ResetFlag();//LEDテストでNGになったときは、カメラのフラグを初期化しないとNG枠が出たままになる
                                 goto Retry;
 
                             }
@@ -352,14 +383,15 @@ namespace PC80_Tester
                 //↓↓すべての項目が合格した時の処理です↓↓
                 General.ResetIo();
                 await Task.Delay(500);
-                State.VmTestStatus.StartButtonContent = Constants.確認;
-                await General.cam.Stop();
+                await General.camLed.Stop();
+                await General.camLcd.Stop();
 
                 FlagTestTime = false;
 
                 State.VmTestStatus.Colorlabel判定 = Brushes.AntiqueWhite;
                 State.VmTestStatus.Decision = "PASS";
                 State.VmTestStatus.ColorDecision = effect判定表示PASS;
+                State.VmTestStatus.ButtonStopVis = System.Windows.Visibility.Hidden;
 
                 ResetRing();
                 SetDecision();
@@ -369,15 +401,16 @@ namespace PC80_Tester
                 //通しで試験が合格したときの処理です(検査データを保存して、シリアルナンバーをインクリメントする)
                 if (State.VmTestStatus.CheckUnitTest != true) //null or False アプリ立ち上げ時はnullになっている！
                 {
-                    General.SaveTestData();
-                    General.StampOn();//合格印押し
-
+                    await Task.Run(() =>
+                    {
+                        General.SaveTestData();
+                        General.StampOn();//合格印押し
+                    });
                     //当日試験合格数をインクリメント ビューモデルはまだ更新しない
                     State.Setting.TodayOkCount++;
                     Flags.ShowLabelPage = true;
                     General.PlaySound(General.soundPass);
-                    await Task.Delay(3900);
-                    State.VmTestStatus.StartButtonEnable = true;
+                    await Task.Delay(4500);
                     return;
                 }
                 else
@@ -385,21 +418,16 @@ namespace PC80_Tester
                     State.VmTestStatus.Message = Constants.MessRemove;
                     Flags.ShowLabelPage = false;
 
-                    StopButtonBlinkOn();
-                    State.VmTestStatus.StartButtonEnable = true;
-                    State.VmTestStatus.StartButtonContent = Constants.確認;
+                    General.PlaySound(General.soundSuccess);
                     await Task.Run(() =>
                     {
                         while (true)
                         {
-                            if (Flags.Click確認Button)
-                            {
-                                break;
-                            }
+                            if (General.CheckPressOpen()) break;
                             Thread.Sleep(100);
                         }
                     });
-                    StopButtonBlinkOff();
+
                     return;
                 }
 
@@ -410,6 +438,7 @@ namespace PC80_Tester
                 General.ResetIo();
                 await Task.Delay(500);
 
+                State.VmTestStatus.ButtonStopVis = System.Windows.Visibility.Hidden;
 
                 FlagTestTime = false;
                 State.VmTestStatus.Message = Constants.MessRemove;
@@ -444,21 +473,14 @@ namespace PC80_Tester
                 SbFail();
 
                 General.PlaySound(General.soundFail);
-                StopButtonBlinkOn();
-                State.VmTestStatus.StartButtonEnable = true;
-                State.VmTestStatus.StartButtonContent = Constants.確認;
                 await Task.Run(() =>
                 {
                     while (true)
                     {
-                        if (Flags.Click確認Button)
-                        {
-                            break;
-                        }
+                        if (General.CheckPressOpen()) break;
                         Thread.Sleep(100);
                     }
                 });
-                StopButtonBlinkOff();
 
                 return;
 
@@ -474,8 +496,12 @@ namespace PC80_Tester
             {
                 General.ResetIo();
                 SbRingLoad();
-                General.cam.ResetFlag();
-                await General.cam.Stop();
+
+                General.camLed.ResetFlag();
+                await General.camLed.Stop();
+
+                General.camLcd.ResetFlag();
+                await General.camLcd.Stop();
 
                 if (Flags.ShowLabelPage)
                 {

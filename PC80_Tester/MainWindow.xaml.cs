@@ -39,7 +39,15 @@ namespace PC80_Tester
             //タイマーの設定
             timerTextInput = new DispatcherTimer(DispatcherPriority.Normal);
             timerTextInput.Interval = TimeSpan.FromMilliseconds(10000);
-            timerTextInput.Tick += timerTextInput_Tick;
+            timerTextInput.Tick += (object sender, EventArgs e) =>
+            {
+                timerTextInput.Stop();
+                if (!Flags.SetOpecode)
+                {
+                    State.VmMainWindow.Opecode = "";
+                }
+            };
+
             timerTextInput.Start();
 
             timerStartMic = new DispatcherTimer(DispatcherPriority.Normal);
@@ -76,6 +84,8 @@ namespace PC80_Tester
 
             this.WindowState = WindowState.Maximized;
 
+            Flags.PressOpenCheckBeforeTest = true;//アプリ立ち上げ時はtrueにしておく
+
         }
 
 
@@ -90,12 +100,12 @@ namespace PC80_Tester
                 if (Flags.State1768)
                 {
                     General.ResetIo();
-                    LPC1768.ClosePort();//IO閉じる
+                    LPC1768.ClosePort();
                 }
 
                 if (Flags.StateMoxa)
                 {
-                    Target.ClosePort();//IO閉じる
+                    Target.ClosePort();
                 }
 
                 if (Flags.StateMultimeter)
@@ -136,16 +146,6 @@ namespace PC80_Tester
             }
         }
 
-
-
-        void timerTextInput_Tick(object sender, EventArgs e)
-        {
-            timerTextInput.Stop();
-            if (!Flags.SetOpecode)
-            {
-                State.VmMainWindow.Opecode = "";
-            }
-        }
 
         private void cbOperator_DropDownClosed(object sender, EventArgs e)
         {

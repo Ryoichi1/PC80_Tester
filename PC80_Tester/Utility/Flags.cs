@@ -5,6 +5,7 @@ namespace PC80_Tester
 {
     public static class Flags
     {
+        public static bool DialogPushed { get; set; }// ダイアログボックス表示中に、OK or CANSEL or 丸スイッチを押したかどうか
         public static bool DialogReturn { get; set; }
         public static bool DoGetDeviceName { get; set; }
         public static bool OtherPage { get; set; }
@@ -12,16 +13,16 @@ namespace PC80_Tester
         //試験開始時に初期化が必要なフラグ
         public static bool StopInit周辺機器 { get; set; }
         public static bool Initializing周辺機器 { get; set; }
-        public static bool EnableTestStart { get; set; }
         public static bool Testing { get; set; }
         public static bool PowOn { get; set; }//メイン電源ON/OFF
+        public static bool LightOn { get; set; }//メイン電源ON/OFF
         public static bool ShowErrInfo { get; set; }
         public static bool AddDecision { get; set; }
 
         public static bool ShowLabelPage { get; set; }
         public static bool ClickStopButton { get; set; }
-        public static bool Click確認Button { get; set; }
 
+        public static bool PressOpenCheckBeforeTest { get; set; }
 
         //周辺機器ステータス
         private static bool _State1768;

@@ -73,7 +73,6 @@ namespace PC80_Tester
                     {
                         ResetIo();
                         SetRelayForCurrCheck();
-                        PowSupply_TestMode(true);
                         Thread.Sleep(1500);
 
                         multimeter.GetDcA();

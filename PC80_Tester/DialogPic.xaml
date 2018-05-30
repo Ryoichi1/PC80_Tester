@@ -8,7 +8,7 @@
         BorderThickness="2"
         ShowTitleBar="False"
         mc:Ignorable="d"
-        Height="492.018" Width="581.695" WindowStartupLocation="CenterScreen" AllowsTransparency="True" WindowStyle="None" Icon="Resources/Pic/VisualStudio_32x.png" BorderBrush="#FF0A89F1" Padding="0" Margin="0,0,700,0" WindowTransitionsEnabled="False" Loaded="metroWindow_Loaded" ShowCloseButton="False" ShowMinButton="False" ShowMaxRestoreButton="False" >
+        Height="492.018" Width="581.695" WindowStartupLocation="CenterScreen" AllowsTransparency="True" WindowStyle="None" Icon="Resources/Pic/VisualStudio_32x.png" BorderBrush="#FF0A89F1" Padding="0" Margin="0,0,700,0" WindowTransitionsEnabled="False" Loaded="metroWindow_Loaded" ShowCloseButton="False" ShowMinButton="False" ShowMaxRestoreButton="False" Unloaded="metroWindow_Unloaded" >
     <Controls:MetroWindow.Resources>
         <Storyboard x:Key="sbDialogShow">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="metroWindow">

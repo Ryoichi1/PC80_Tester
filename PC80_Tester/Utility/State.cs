@@ -39,7 +39,6 @@ namespace PC80_Tester
         public static CameraPropertyForLcd CamPropLcd { get; set; }
 
         public static CameraPropertyForLed CamPropLed { get; set; }
-        public static CameraPropertyForDefault CamPropDef { get; set; }
 
         public static string CurrDir { get; set; }
 
@@ -66,10 +65,14 @@ namespace PC80_Tester
             new TestDetail(601, "ブザー周波数 チェック"),
             new TestDetail(602, "ブザー音圧 チェック"),
             new TestDetail(700, "タクトスイッチ チェック"),
-            new TestDetail(800, "LED1（緑） チェック"),
-            new TestDetail(801, "LED2（緑） チェック"),
-            new TestDetail(802, "LED3（赤） チェック"),
-            new TestDetail(803, "LED4（橙） チェック"),
+            new TestDetail(800, "LED1（緑） 点灯チェック"),
+            new TestDetail(801, "LED2（緑） 点灯チェック"),
+            new TestDetail(802, "LED3（赤） 点灯チェック"),
+            new TestDetail(803, "LED4（橙） 点灯チェック"),
+            new TestDetail(804, "LED1（緑） カラーチェック"),
+            new TestDetail(805, "LED2（緑） カラーチェック"),
+            new TestDetail(806, "LED3（赤） カラーチェック"),
+            new TestDetail(807, "LED4（橙） カラーチェック"),
             new TestDetail(900, "LCD(FIG1) チェック"),
             new TestDetail(901, "LCD(FIG2) チェック"),
         };
@@ -105,7 +108,6 @@ namespace PC80_Tester
             CamPropLcd = Deserialize<CameraPropertyForLcd>(Constants.filePath_CamPropLcd);
             //LEDプロパティファイルのロード
             CamPropLed = Deserialize<CameraPropertyForLed>(Constants.filePath_CamPropLed);
-            CamPropDef = Deserialize<CameraPropertyForDefault>(Constants.filePath_CamPropDef);
 
         }
 
@@ -182,63 +184,50 @@ namespace PC80_Tester
 
         }
 
-        public static void SetCamPropForDef()
-        {
-            General.cam.Brightness = CamPropDef.Brightness;
-            General.cam.Contrast = CamPropDef.Contrast;
-            General.cam.Hue = CamPropDef.Hue;
-            General.cam.Saturation = CamPropDef.Saturation;
-            General.cam.Sharpness = CamPropDef.Sharpness;
-            General.cam.Gamma = CamPropDef.Gamma;
-            General.cam.Gain = CamPropDef.Gain;
-            General.cam.Exposure = CamPropDef.Exposure;
-            General.cam.Wb = CamPropDef.Whitebalance;
-            General.cam.Theta = CamPropDef.Theta;
-        }
         public static void SetCamPropForLcd()
         {
-            General.cam.BinLevel = CamPropLcd.BinLevel;
-            General.cam.Opening = CamPropLcd.Opening;
-            General.cam.openCnt = CamPropLcd.OpenCnt;
-            General.cam.closeCnt = CamPropLcd.CloseCnt;
+            General.camLcd.BinLevel = CamPropLcd.BinLevel;
+            General.camLcd.Opening = CamPropLcd.Opening;
+            General.camLcd.OpenCnt = CamPropLcd.OpenCnt;
+            General.camLcd.CloseCnt = CamPropLcd.CloseCnt;
 
-            General.cam.Brightness = CamPropLcd.Brightness;
-            General.cam.Contrast = CamPropLcd.Contrast;
-            General.cam.Hue = CamPropLcd.Hue;
-            General.cam.Saturation = CamPropLcd.Saturation;
-            General.cam.Sharpness = CamPropLcd.Sharpness;
-            General.cam.Gamma = CamPropLcd.Gamma;
-            General.cam.Gain = CamPropLcd.Gain;
-            General.cam.Exposure = CamPropLcd.Exposure;
-            General.cam.Wb = CamPropLcd.Whitebalance;
-            General.cam.Theta = CamPropLcd.Theta;
+            General.camLcd.Brightness = CamPropLcd.Brightness;
+            General.camLcd.Contrast = CamPropLcd.Contrast;
+            General.camLcd.Hue = CamPropLcd.Hue;
+            General.camLcd.Saturation = CamPropLcd.Saturation;
+            General.camLcd.Sharpness = CamPropLcd.Sharpness;
+            General.camLcd.Gamma = CamPropLcd.Gamma;
+            General.camLcd.Gain = CamPropLcd.Gain;
+            General.camLcd.Exposure = CamPropLcd.Exposure;
+            General.camLcd.Wb = CamPropLcd.Whitebalance;
+            General.camLcd.Theta = CamPropLcd.Theta;
         }
 
         public static void SetCamPropForLed()
         {
-            General.cam.Opening = CamPropLed.Opening;
-            General.cam.openCnt = CamPropLed.OpenCnt;
-            General.cam.closeCnt = CamPropLed.CloseCnt;
+            General.camLed.Opening = CamPropLed.Opening;
+            General.camLed.OpenCnt = CamPropLed.OpenCnt;
+            General.camLed.CloseCnt = CamPropLed.CloseCnt;
 
-            General.cam.Brightness = CamPropLed.Brightness;
-            General.cam.Contrast = CamPropLed.Contrast;
-            General.cam.Hue = CamPropLed.Hue;
-            General.cam.Saturation = CamPropLed.Saturation;
-            General.cam.Sharpness = CamPropLed.Sharpness;
-            General.cam.Gamma = CamPropLed.Gamma;
-            General.cam.Gain = CamPropLed.Gain;
-            General.cam.Exposure = CamPropLed.Exposure;
-            General.cam.Wb = CamPropLed.Whitebalance;
-            General.cam.Theta = CamPropLed.Theta;
-            General.cam.BinLevel = CamPropLed.BinLevel;
+            General.camLed.Brightness = CamPropLed.Brightness;
+            General.camLed.Contrast = CamPropLed.Contrast;
+            General.camLed.Hue = CamPropLed.Hue;
+            General.camLed.Saturation = CamPropLed.Saturation;
+            General.camLed.Sharpness = CamPropLed.Sharpness;
+            General.camLed.Gamma = CamPropLed.Gamma;
+            General.camLed.Gain = CamPropLed.Gain;
+            General.camLed.Exposure = CamPropLed.Exposure;
+            General.camLed.Wb = CamPropLed.Whitebalance;
+            General.camLed.Theta = CamPropLed.Theta;
+            General.camLed.BinLevel = CamPropLed.BinLevel;
         }
 
         public static void SetCamPoint()
         {
-            VmLedPoint.LED1 = CamPropLed.Led1;
-            VmLedPoint.LED2 = CamPropLed.Led2;
-            VmLedPoint.LED3 = CamPropLed.Led3;
-            VmLedPoint.LED4 = CamPropLed.Led4;
+            VmLedPoint.LED1 = CamPropLed.PointLed1;
+            VmLedPoint.LED2 = CamPropLed.PointLed2;
+            VmLedPoint.LED3 = CamPropLed.PointLed3;
+            VmLedPoint.LED4 = CamPropLed.PointLed4;
 
             VmLcdPoint.X_UpLeft = CamPropLcd.X_UP_L;
             VmLcdPoint.Y_UpLeft = CamPropLcd.Y_UP_L;

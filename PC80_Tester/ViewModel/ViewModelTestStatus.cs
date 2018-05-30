@@ -10,35 +10,25 @@ namespace PC80_Tester
 {
     public class ViewModelTestStatus : BindableBase
     {
-        //エラー詳細表示ボタンの可視切り替え
-        private Visibility _EnableButtonErrInfo = Visibility.Hidden;
-        public Visibility EnableButtonErrInfo
+        //スタートボタンのプロパティ(完成体検査時に使用)/////////////////////////////////////////////////////////////////////////////////////
+        private Visibility _ButtonStopVis = Visibility.Hidden;
+        public Visibility ButtonStopVis
         {
-            get { return _EnableButtonErrInfo; }
+            get { return _ButtonStopVis; }
 
             set
             {
-                SetProperty(ref _EnableButtonErrInfo, value);
+                SetProperty(ref _ButtonStopVis, value);
             }
         }
 
-
-        //スタートボタンのプロパティ(完成体検査時に使用)/////////////////////////////////////////////////////////////////////////////////////
-
-        private bool _StartButtonEnable;
-        public bool StartButtonEnable
+        private bool _ButtonStopEnable;
+        public bool ButtonStopEnable
         {
 
-            get { return _StartButtonEnable; }
-            set { SetProperty(ref _StartButtonEnable, value); }
+            get { return _ButtonStopEnable; }
+            set { SetProperty(ref _ButtonStopEnable, value); }
 
-        }
-
-        private string _StartButtonContent;
-        public string StartButtonContent
-        {
-            get { return _StartButtonContent; }
-            set { SetProperty(ref _StartButtonContent, value); }
         }
 
 

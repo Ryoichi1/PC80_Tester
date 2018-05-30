@@ -10,6 +10,7 @@ namespace PC80_Tester
         public int CloseCnt { get; set; }//クロージング処理時の収縮回数
 
         //カメラプロパティ
+        public int CamNumber { get; set; }
         public double Brightness { get; set; }
         public double Contrast { get; set; }
         public double Hue { get; set; }
@@ -23,17 +24,23 @@ namespace PC80_Tester
 
 
         //LEDの座標
-        public string Led1 { get; set; }
-        public string Led2 { get; set; }
-        public string Led3 { get; set; }
-        public string Led4 { get; set; }
-
+        public string PointLed1 { get; set; }
+        public string PointLed2 { get; set; }
+        public string PointLed3 { get; set; }
+        public string PointLed4 { get; set; }
 
         //LEDの輝度
-        public double LumLed1 { get; set; }
-        public double LumLed2 { get; set; }
-        public double LumLed3 { get; set; }
-        public double LumLed4 { get; set; }
+        public string LumLed1 { get; set; }
+        public string LumLed2 { get; set; }
+        public string LumLed3 { get; set; }
+        public string LumLed4 { get; set; }
+
+        //LEDの色相
+        public string HueLed1 { get; set; }
+        public string HueLed2 { get; set; }
+        public string HueLed3 { get; set; }
+        public string HueLed4 { get; set; }
+
 
 
 
