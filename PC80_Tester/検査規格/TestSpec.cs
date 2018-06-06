@@ -22,7 +22,7 @@ namespace PC80_Tester
         public double P130Max { get; set; }
         public double P130Min { get; set; }
 
-        //ブザー音
+        //ブザー音圧 下限
         public double BzMin { get; set; }
 
         //VR調整時のVo電圧（LCDのVoピンに入力される電圧）
@@ -38,6 +38,18 @@ namespace PC80_Tester
 
         public int GreenHueMax { get; set; }
         public int GreenHueMin { get; set; }
+
+
+        //LED輝度
+        public int RedLumMax { get; set; }
+        public int RedLumMin { get; set; }
+
+        public int OrangeLumMax { get; set; }
+        public int OrangeLumMin { get; set; }
+
+        public int GreenLumMax { get; set; }
+        public int GreenLumMin { get; set; }
+
 
         //LCD一致率
         public double LcdMatchMin { get; set; }

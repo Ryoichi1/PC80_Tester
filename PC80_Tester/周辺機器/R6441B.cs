@@ -102,12 +102,14 @@ namespace PC80_Tester
             {
                 if (mode != MeasMode.DCA)
                 {
-                    if (!SendData("Z,F5,R6,PR2")) return false; //Z：初期化,F5：直流電流測定,R6：200mAレンジ,PR2：サンプリングレートMid
+                    //if (!SendData("Z,F5,R6,PR2")) return false; //Z：初期化,F5：直流電流測定,R6：200mAレンジ,PR2：サンプリングレートMid
+                    if (!SendData("Z,F5")) return false; //オートレンジ設定（マルチメータの電流端子H/Lどちらにも対応 デバッグ中にL側のFUSEが切れたためH側に変更）
                     if (!ReadRecieveData(1000)) return false;
                     Sleep(2000);//モード変えたらウェイト
                     mode = MeasMode.DCA;
                 }
 
+                Sleep(1000);
                 SendData("MD?"); //'MD?:測定データ出力要求
                 if (!ReadRecieveData(1000))
                 {

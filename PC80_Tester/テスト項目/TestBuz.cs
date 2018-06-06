@@ -35,15 +35,15 @@ namespace PC80_Tester
             }
             finally
             {
-                VmTestResults.P130 = measData.ToString("F2") + "Hz";
+                VmTestResults.P130 = measData.ToString("F0") + "Hz";
                 VmTestResults.ColP130 = result ? OffBrush : NgBrush;
 
 
                 //NGだった場合、エラー詳細情報の規格値を更新する
                 if (!result)
                 {
-                    VmTestStatus.Spec = $"規格値 : {Min.ToString("F2")} ～ {Max.ToString("F2")}Hz";
-                    VmTestStatus.MeasValue = $"計測値 : {measData.ToString("F2")}Hz";
+                    VmTestStatus.Spec = $"規格値 : {Min.ToString("F0")} ～ {Max.ToString("F0")}Hz";
+                    VmTestStatus.MeasValue = $"計測値 : {measData.ToString("F0")}Hz";
 
                 }
             }
@@ -77,7 +77,7 @@ namespace PC80_Tester
             }
             finally
             {
-                VmTestResults.Buz = measData.ToString("F2") + "Hz";
+                VmTestResults.Buz = measData.ToString("F0") + "Hz";
                 VmTestResults.ColPBuz = result ? OffBrush : NgBrush;
 
                 //NGだった場合、エラー詳細情報の規格値を更新する
@@ -87,8 +87,8 @@ namespace PC80_Tester
                     wv = new FFT();
                     wv.Init();
                     
-                    VmTestStatus.Spec = $"規格値 : {Min.ToString("F2")} ～ {Max.ToString("F2")}Hz";
-                    VmTestStatus.MeasValue = $"計測値 : {measData.ToString("F2")}Hz";
+                    VmTestStatus.Spec = $"規格値 : {Min.ToString("F0")} ～ {Max.ToString("F0")}Hz";
+                    VmTestStatus.MeasValue = $"計測値 : {measData.ToString("F0")}Hz";
 
                 }
             }

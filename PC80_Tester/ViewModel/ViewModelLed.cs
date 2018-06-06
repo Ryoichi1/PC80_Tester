@@ -49,6 +49,7 @@ namespace PC80_Tester
 
 
 
+        //LED色
         private Brush _ColLED1Hue;
         public Brush ColLED1Hue { get { return _ColLED1Hue; } set { SetProperty(ref _ColLED1Hue, value); } }
        

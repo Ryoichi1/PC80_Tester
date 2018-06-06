@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -11,13 +12,20 @@ namespace PC80_Tester
     /// </summary>
     public partial class DialogPic
     {
+        private System.Timers.Timer TmTimeOut;
 
-        bool soundSw;
 
         public DialogPic()
         {
             InitializeComponent();
             this.MouseLeftButtonDown += (sender, e) => this.DragMove();//ウィンドウ全体でドラッグ可能にする
+
+            TmTimeOut = new System.Timers.Timer();
+            TmTimeOut.Elapsed += (sender, e) =>
+            {
+                TmTimeOut.Stop();
+                General.PlaySoundLoop(General.soundAlarm);
+            };
         }
 
         private void ButtonOk_Click(object sender, RoutedEventArgs e)
@@ -36,7 +44,8 @@ namespace PC80_Tester
 
         private void metroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            General.PlaySoundLoop(General.soundAlarm);
+            TmTimeOut.Interval = 700;
+            TmTimeOut.Start();
             ButtonOk.Focus();
         }
 
@@ -100,6 +109,17 @@ namespace PC80_Tester
                 ButtonCancel.Background = Brushes.Transparent;
                 ButtonOk.Background = General.DialogOnBrush;
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            General.PlaySoundLoop(General.soundAlarm);
+
+        }
+
+        private void metroWindow_Unloaded(object sender, RoutedEventArgs e)
+        {
+            TmTimeOut.Stop();
         }
     }
 }

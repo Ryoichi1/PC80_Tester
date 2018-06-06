@@ -206,7 +206,7 @@ namespace PC80_Tester
                     return respons;//falseが返ります
                 }
 
-                currData = Double.Parse(RecieveData);
+                currData = Double.Parse(RecieveData)*1000;
                 return true;
             }
             catch

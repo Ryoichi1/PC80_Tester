@@ -12,9 +12,17 @@ namespace PC80_Tester
             try
             {
                 ResetIo();
-                SetK7_11(true);//MINICUBE2に接続
+                SetK7_RL2(true);//MINICUBE2に接続
                 await Task.Delay(400);
-                return result = await FlashProgrammer.WriteFirmware(Constants.RwsPath, Spec.FwSum);
+                General.PowSupply(true);
+                await Task.Delay(500);
+                var re = await FlashProgrammer.WriteFirmware(Constants.RwsPath, Spec.FwSum);
+
+                VmTestStatus.Spec = $"規格値 : チェックサム 0x{Spec.FwSum}";
+                VmTestStatus.MeasValue = $"計測値 : チェックサム 0x{re.readSum}";
+
+                return result = re.result;
+
             }
             catch
             {
@@ -22,7 +30,8 @@ namespace PC80_Tester
             }
             finally
             {
-                SetK7_11(false);
+                General.PowSupply(false);
+                SetK7_RL2(false);
             }
         }
     }

@@ -93,7 +93,7 @@ namespace PC80_Tester
 
 
         //ファームウェアの書き込み
-        public static async Task<bool> WriteFirmware(string RwsFilePath, string Sum, bool CalcSum = true)
+        public static async Task<(bool result, string readSum)> WriteFirmware(string RwsFilePath, string Sum, bool CalcSum = true)
         {
             出力パネル表示データ = "";//出力パネルのデータをクリア
 
@@ -113,7 +113,7 @@ namespace PC80_Tester
                 while (MainHnd == IntPtr.Zero)
                 {
                     Application.DoEvents();
-                    if (FlagTm == false) return false;
+                    if (FlagTm == false) return (false, "");
                     MainHnd = FindWindow(null, "Renesas Flash Programmer (Supported Version)");
                 }
                 SetForegroundWindow(MainHnd); Thread.Sleep(1000); //FDTを最前面に表示してアクティブにする（センドキー送るため）
@@ -126,7 +126,7 @@ namespace PC80_Tester
                     SubHnd = FindWindowEx(MainHnd, SubHnd, $"WindowsForms10.RichEdit20W.app.0.141b42a_r{WindowRev}_ad1", "");
                 }
 
-                if (SubHnd == IntPtr.Zero) return false;
+                if (SubHnd == IntPtr.Zero) return (false, "");
 
                 Thread.Sleep(200);
                 SendKeys.SendWait("{ENTER}");
@@ -139,23 +139,25 @@ namespace PC80_Tester
                     sb.Clear();
                     SendMessage(SubHnd, WM_GETTEXT, MaxSize - 1, sb);
                     出力パネル表示データ = sb.ToString();
-                    if (出力パネル表示データ.IndexOf("エラー") >= 0) return false;
-                    if (出力パネル表示データ.Contains("Autoprocedure(E.P) PASS") && 出力パネル表示データ.Contains("====== (書き込みツールから切断) ======")) break;
+                    if (出力パネル表示データ.IndexOf("エラー") >= 0) return (false, "");
+                    if (出力パネル表示データ.Contains("Program PASS") && 出力パネル表示データ.Contains("====== (書き込みツールから切断) ======")) break;
                 }
 
                 if (CalcSum)
                 {
-                    return (出力パネル表示データ.Contains("Checksum Code flash: 0x" + Sum)); //SumはUser Flashの値とする
+                    var index = 出力パネル表示データ.IndexOf("flash: 0x");
+                    var sumFp = 出力パネル表示データ.Substring(index + 9, 4); 
+                    return (result:(Sum == sumFp), readSum:sumFp); //SumはUser Flashの値とする
                 }
                 else
                 {
-                    return true;
+                    return (true, "");
                 }
 
             }
             catch
             {
-                return false;
+                return (false, "");
             }
             finally
             {

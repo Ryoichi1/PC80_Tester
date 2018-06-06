@@ -25,9 +25,7 @@ namespace PC80_Tester
         private FilterInfoCollection videoDevices;
         private VideoCaptureDevice2 videoDevice;
 
-
         public CvMat _fileIntrinsic, _fileDistortion;
-
         public CvBlobs blobs;
         public IplImage imageForLabeling;
         public IplImage imageForHsv;
@@ -54,9 +52,6 @@ namespace PC80_Tester
         public int Sdata { get; set; }
         public int Vdata { get; set; }
 
-        public bool Opening { get; set; }//ノイズ除去プロセス オープニング処理
-        public int openCnt { get; set; }
-        public int closeCnt { get; set; }
 
         public Camera(int num, string calFilePath, int width, int height)
         {
@@ -143,9 +138,29 @@ namespace PC80_Tester
         }
 
 
-
-
         //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+        //収縮・拡張処理
+        private bool _Opening;
+        public bool Opening
+        {
+            get { return _Opening; }
+            set { this.SetProperty(ref this._Opening, value); }
+        }
+
+        private int _OpenCnt;
+        public int OpenCnt
+        {
+            get { return _OpenCnt; }
+            set { this.SetProperty(ref this._OpenCnt, value); }
+        }
+
+        private int _CloseCnt;
+        public int CloseCnt
+        {
+            get { return _CloseCnt; }
+            set { this.SetProperty(ref this._CloseCnt, value); }
+        }
+
 
         //明るさ
         private double _Brightness;
@@ -309,11 +324,7 @@ namespace PC80_Tester
                     cap.SetCaptureProperty(CaptureProperty.FrameWidth, WIDTH);
                     cap.SetCaptureProperty(CaptureProperty.FrameHeight, HEIGHT);
 
-                    var buffWb = Wb;//現在のホワイトバランスを保存
-                    Wb = 3000;
-                    Thread.Sleep(100);
-                    Wb = buffWb;
-                    Thread.Sleep(100);
+                    SetWb();
 
                     var dis = App.Current.Dispatcher;
 
@@ -512,7 +523,18 @@ namespace PC80_Tester
             });
         }
 
-
+        public void SetWb()
+        {
+            var buffWb = Wb;//現在のホワイトバランスを保存
+            var val = buffWb - 10;
+            while (true)
+            {
+                Wb = val;
+                val++;
+                if (val > buffWb)
+                    break;
+            }
+        }
 
         public bool GetPic()
         {
@@ -565,14 +587,14 @@ namespace PC80_Tester
                 if (Opening)
                 {
                     //オープニング処理でノイズ除去(拡張 → 収縮)
-                    Cv.Erode(gray, gray, null, closeCnt);//収縮処理2回　ノイズ除去 
-                    Cv.Dilate(gray, gray, null, openCnt);//拡張処理2回　ノイズ除去 
+                    Cv.Erode(gray, gray, null, CloseCnt);//収縮処理2回　ノイズ除去 
+                    Cv.Dilate(gray, gray, null, OpenCnt);//拡張処理2回　ノイズ除去 
                 }
                 else
                 {
                     //クロージング処理でノイズ除去(拡張 → 収縮)
-                    Cv.Dilate(gray, gray, null, openCnt);//拡張処理2回　ノイズ除去 
-                    Cv.Erode(gray, gray, null, closeCnt);//収縮処理2回　ノイズ除去 
+                    Cv.Dilate(gray, gray, null, OpenCnt);//拡張処理2回　ノイズ除去 
+                    Cv.Erode(gray, gray, null, CloseCnt);//収縮処理2回　ノイズ除去 
                 }
 
                 var img = new IplImage(WIDTH, HEIGHT, BitDepth.U8, 1);

@@ -35,13 +35,14 @@ namespace PC80_Tester
 
         //インスタンスを生成する必要がある周辺機器
         public static FFT wv;
-        public static Camera cam;
+        public static Camera camLcd;
+        public static Camera camLed;
         public static IMultimeter multimeter;
 
         static General()
         {
             //オーディオリソースを取り出す
-            General.soundPass = new SoundPlayer(@"Resources\Wav\NewVictory.wav");
+            General.soundPass = new SoundPlayer(@"Resources\Wav\Victory.wav");
             General.soundFail = new SoundPlayer(@"Resources\Wav\Fail.wav");
             General.soundAlarm = new SoundPlayer(@"Resources\Wav\Alarm.wav");
             General.soundSuccess = new SoundPlayer(@"Resources\Wav\Success.wav");
@@ -275,7 +276,14 @@ namespace PC80_Tester
             //IOを初期化する処理（出力をすべてＬに落とす）
             LPC1768.SendData("ResetIo");
             Flags.PowOn = false;
+            Flags.LightOn = false;
         }
+        public static bool CheckPressOpen()
+        {
+            LPC1768.SendData("R,P25");
+            return (LPC1768.RecieveData == "H");
+        }
+
 
         public static void PowSupply_TestMode(bool sw)
         {
@@ -284,13 +292,27 @@ namespace PC80_Tester
             {
                 SetK6(true);
                 Sleep(500);
-                SetK5(true);
+                SetK1(true);
                 Sleep(500);
                 SetK6(false);
             }
             else
             {
-                SetK5(false);
+                SetK1(false);
+            }
+
+            Flags.PowOn = sw;
+        }
+        public static void PowSupply(bool sw)
+        {
+            if (Flags.PowOn == sw) return;
+            if (sw)
+            {
+                SetK1(true);
+            }
+            else
+            {
+                SetK1(false);
             }
 
             Flags.PowOn = sw;
@@ -298,30 +320,26 @@ namespace PC80_Tester
 
         public static void SetRelayForAdjustVr()
         {
-            SetK1(true);
-            SetK2(true);
+            SetK4(true);
             Sleep(250);
         }
 
         public static void SetRelayForVccCheck()
         {
-            SetK1(true);
+            SetK3(true);
             Sleep(200);
         }
 
         public static void SetRelayForCurrCheck()
         {
-            SetK1(true);
             SetK2(true);
-            SetK3(true);
-            SetK4(true);
-            Sleep(200);
+            Sleep(800);
+            SetRL1(true);
         }
 
         public static void SetRelayForP130Check()
         {
-            SetK1(true);
-            SetK3(true);
+            SetK5(true);
             Sleep(200);
         }
 
@@ -389,7 +407,8 @@ namespace PC80_Tester
             VmTestStatus.OkCount = Setting.TodayOkCount.ToString() + "台";
             VmTestStatus.NgCount = Setting.TodayNgCount.ToString() + "台";
             VmTestStatus.Message = Constants.MessSet;
-            cam.ImageOpacity = Constants.OpacityImgMin;
+            camLcd.ImageOpacity = Constants.OpacityImgMin;
+            camLed.ImageOpacity = Constants.OpacityImgMin;
 
 
             VmTestStatus.DecisionVisibility = System.Windows.Visibility.Hidden;
@@ -429,16 +448,15 @@ namespace PC80_Tester
             VmTestStatus.TestSettingEnable = true;
             VmMainWindow.OperatorEnable = true;
 
-            //コネクタチェックでエラーになると表示されたままになるので隠す（誤動作防止！！！）
-            VmTestStatus.EnableButtonErrInfo = System.Windows.Visibility.Hidden;
-
             VmTestStatus.CheckWriteTestFwPass = false;
+
+
         }
 
 
         public static void CheckAll周辺機器フラグ()
         {
-            Flags.AllOk周辺機器接続 = (Flags.State1768 && Flags.StateMoxa && cam.CamState && Flags.StateMic && Flags.StateMultimeter);
+            Flags.AllOk周辺機器接続 = (Flags.State1768 && Flags.StateMoxa && camLcd.CamState && camLed.CamState && Flags.StateMic && Flags.StateMultimeter);
         }
 
 
@@ -504,11 +522,14 @@ namespace PC80_Tester
             });
 
 
-            //カメラ1（CMS_V37BK）の初期化
+            //カメラ1（LCD撮影）の初期化
             bool StopCAMERA1 = false;
+            //カメラ2（LED撮影）の初期化
+            bool StopCAMERA2 = false;
+            
             Task.Run(() =>
             {
-                cam = new Camera(0, Constants.filePath_CamCalFilePath, 640, 360);
+                camLcd = new Camera(State.CamPropLcd.CamNumber, Constants.filePath_CamLcdCalFilePath, 640, 360);
                 while (true)
                 {
                     if (Flags.StopInit周辺機器)
@@ -516,15 +537,28 @@ namespace PC80_Tester
                         break;
                     }
 
-                    cam.InitCamera();
-                    if (cam.CamState) break;
+                    camLcd.InitCamera();
+                    if (camLcd.CamState) break;
 
                     Thread.Sleep(500);
                 }
                 StopCAMERA1 = true;
+
+                camLed = new Camera(State.CamPropLed.CamNumber, Constants.filePath_CamLedCalFilePath, 640, 360);
+                while (true)
+                {
+                    if (Flags.StopInit周辺機器)
+                    {
+                        break;
+                    }
+
+                    camLed.InitCamera();
+                    if (camLed.CamState) break;
+
+                    Thread.Sleep(500);
+                }
+                StopCAMERA2 = true;
             });
-
-
 
 
             //アドバンテスト R6441Bの初期化
@@ -564,7 +598,7 @@ namespace PC80_Tester
                 while (true)
                 {
                     CheckAll周辺機器フラグ();
-                    var IsAllStopped = Stop1768 && StopMoxa && StopMulti && StopCAMERA1;
+                    var IsAllStopped = Stop1768 && StopMoxa && StopMulti && StopCAMERA1 && StopCAMERA2;
 
                     if (Flags.AllOk周辺機器接続 || IsAllStopped) break;
                     Thread.Sleep(400);
@@ -576,6 +610,44 @@ namespace PC80_Tester
             });
 
         }
+
+        public static async Task CheckNextButton(bool ExtraSound = false)
+        {
+            var tm = new GeneralTimer(500);
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    bool sw = true;
+                    SetSwLed(sw);
+                    tm.start();
+                    while (true)
+                    {
+                        if (tm.FlagTimeout)
+                        {
+                            sw = !sw;
+                            SetSwLed(sw);
+                            tm.start();
+                        }
+                        LPC1768.SendData("R,P26");
+                        if (LPC1768.RecieveData == "L" || Flags.DialogPushed)
+                        {
+                            tm.stop();
+                            return;
+                        }
+                    }
+                }
+                finally
+                {
+                    SetSwLed(false);
+                }
+            });
+        }
+
+
+
+
 
         public static IplImage trimming(IplImage src, int x, int y, int width, int height)
         {
@@ -615,30 +687,37 @@ namespace PC80_Tester
 
 
 
-        //試験機リレー、ソレノイドスタンプ制御
+        //試験機リレー制御
         public static void SetK1(bool sw) { LPC1768.SendData("W,P05," + (sw ? "1" : "0")); }
         public static void SetK2(bool sw) { LPC1768.SendData("W,P06," + (sw ? "1" : "0")); }
-        public static void SetK3(bool sw) { LPC1768.SendData("W,P07," + (sw ? "1" : "0")); }
-        public static void SetK4(bool sw) { LPC1768.SendData("W,P08," + (sw ? "1" : "0")); }
-        public static void SetK5(bool sw) { LPC1768.SendData("W,P09," + (sw ? "1" : "0")); }
-        public static void SetK6(bool sw) { LPC1768.SendData("W,P10," + (sw ? "1" : "0")); }
-        public static void SetK7_11(bool sw) { LPC1768.SendData("W,P11," + (sw ? "1" : "0")); }
-        public static void SetSw1(bool sw) { LPC1768.SendData("W,P12," + (sw ? "1" : "0")); }
-        public static void SetSw2(bool sw) { LPC1768.SendData("W,P13," + (sw ? "1" : "0")); }
-        public static void SetSw3(bool sw) { LPC1768.SendData("W,P14," + (sw ? "1" : "0")); }
-        public static void SetSw4(bool sw) { LPC1768.SendData("W,P15," + (sw ? "1" : "0")); }
-        public static void SetSw5(bool sw) { LPC1768.SendData("W,P16," + (sw ? "1" : "0")); }
-        public static void SetSw6(bool sw) { LPC1768.SendData("W,P17," + (sw ? "1" : "0")); }
-        public static void SetSw7(bool sw) { LPC1768.SendData("W,P18," + (sw ? "1" : "0")); }
-        public static void SetSw8(bool sw) { LPC1768.SendData("W,P19," + (sw ? "1" : "0")); }
-        public static void SetSw9(bool sw) { LPC1768.SendData("W,P20," + (sw ? "1" : "0")); }
+        public static void SetRL1(bool sw) { LPC1768.SendData("W,P07," + (sw ? "1" : "0")); }
+        public static void SetK3(bool sw) { LPC1768.SendData("W,P08," + (sw ? "1" : "0")); }
+        public static void SetK4(bool sw) { LPC1768.SendData("W,P09," + (sw ? "1" : "0")); }
+        public static void SetK5(bool sw) { LPC1768.SendData("W,P10," + (sw ? "1" : "0")); }
+        public static void SetK6(bool sw) { LPC1768.SendData("W,P11," + (sw ? "1" : "0")); }
+        public static void SetK7_RL2(bool sw) { LPC1768.SendData("W,P12," + (sw ? "1" : "0")); }
 
-        public static void StampOn() { LPC1768.SendData("STAMP"); }
+        //ソレノイド制御
+        public static void SetSw1(bool sw) { LPC1768.SendData("W,P13," + (sw ? "0" : "1")); }
+        public static void SetSw2(bool sw) { LPC1768.SendData("W,P14," + (sw ? "0" : "1")); }
+        public static void SetSw3(bool sw) { LPC1768.SendData("W,P15," + (sw ? "0" : "1")); }
+        public static void SetSw4(bool sw) { LPC1768.SendData("W,P16," + (sw ? "0" : "1")); }
+        public static void SetSw5(bool sw) { LPC1768.SendData("W,P17," + (sw ? "0" : "1")); }
+        public static void SetSw6(bool sw) { LPC1768.SendData("W,P18," + (sw ? "0" : "1")); }
+        public static void SetSw7(bool sw) { LPC1768.SendData("W,P19," + (sw ? "0" : "1")); }
+        public static void SetSw8(bool sw) { LPC1768.SendData("W,P20," + (sw ? "0" : "1")); }
+        public static void SetSw9(bool sw) { LPC1768.SendData("W,P21," + (sw ? "0" : "1")); }
 
+        //照明制御
+        public static void SetLight(bool sw)
+        {
+            LPC1768.SendData("W,P23," + (sw ? "0" : "1"));
+            Flags.LightOn = sw;
+        }
+        public static void SetSwLed(bool sw) { LPC1768.SendData("W,P24," + (sw ? "0" : "1")); }
 
-
-
-
+        //合格印制御
+        public static void StampOn() { LPC1768.SendData("STAMP"); }//mbed側でON⇒OFFの処理を行う
 
     }
 

@@ -74,9 +74,7 @@
 
 
 
-
-
-        <Canvas x:Name="Canvas検査データ" Height="384" Canvas.Left="438" Canvas.Top="260" Width="470" IsEnabled="{Binding StartButtonEnable}">
+        <Canvas x:Name="Canvas検査データ" Height="393" Canvas.Left="433" Canvas.Top="274" Width="553" IsEnabled="{Binding StartButtonEnable}">
             <Canvas.Resources>
                 <Style TargetType="{x:Type Label}">
                     <Setter Property="Height"  Value="20"/>
@@ -85,19 +83,32 @@
                     <Setter Property="Padding" Value="0,0,0,0"/>
                 </Style>
             </Canvas.Resources>
-            <Canvas.Background>
-                <SolidColorBrush Color="Black" Opacity="0.3"/>
-            </Canvas.Background>
+
+
+
+            <Rectangle Height="392" RenderTransformOrigin="0.5,0.5" Width="545" RadiusX="8" RadiusY="8" Canvas.Top="-1" Canvas.Left="1">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="#FFFFFBFB" Opacity="0.05"/>
+                </Rectangle.Fill>
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
 
 
 
             <TextBlock TextWrapping="Wrap" Text="検査データ" Foreground="White" RenderTransformOrigin="0.494,0.611" Height="21" Canvas.Left="4" Width="107" Canvas.Top="3" FontSize="18"/>
-            <Label Content="" Height="1" Canvas.Left="4" Canvas.Top="27" Width="457" Background="#FF0388F7">
+            <Label Content="" Height="1" Canvas.Left="4" Canvas.Top="27" Width="420" Background="#FF0388F7">
                 <Label.Effect>
                     <DropShadowEffect Color="#FF09A0F7" Direction="0" ShadowDepth="0" BlurRadius="20"/>
                 </Label.Effect>
             </Label>
-            <Canvas x:Name="canvasLedTest" Height="172" Canvas.Left="8" Canvas.Top="196" Width="127">
+            <Canvas x:Name="canvasLedTest" Height="77" Canvas.Left="8" Canvas.Top="197" Width="290">
                 <Canvas.Resources>
                     <Style TargetType="{x:Type Label}">
                         <Setter Property="Foreground" Value="White"/>
@@ -105,25 +116,25 @@
                 </Canvas.Resources>
 
                 <TextBlock TextWrapping="Wrap" Text="LED検査" Foreground="White" RenderTransformOrigin="0.494,0.611" Height="20" Canvas.Left="3" Width="68" Canvas.Top="1" FontSize="16"/>
-                <Border BorderBrush="#FF0097FF" BorderThickness="1" Height="1" Canvas.Left="3" Canvas.Top="21" Width="107" Background="#FF0097FF" RenderTransformOrigin="0.5,0.5">
+                <Border BorderBrush="#FF0097FF" BorderThickness="1" Height="1" Canvas.Left="3" Canvas.Top="21" Width="282" Background="#FF0097FF" RenderTransformOrigin="0.5,0.5">
                     <Border.Effect>
                         <DropShadowEffect Color="#FF00F3FF" BlurRadius="50" Direction="0" ShadowDepth="0"/>
                     </Border.Effect>
                 </Border>
-                <TextBlock Text="色相" Foreground="White" RenderTransformOrigin="0.5,1.056" Height="19" Canvas.Left="58" Canvas.Top="23" Width="32" FontSize="16"/>
-                <TextBlock Text="LED1" Foreground="White" RenderTransformOrigin="0.5,1.056" Height="20" Canvas.Left="4" Canvas.Top="46" Width="41" FontSize="16"/>
-                <TextBlock Text="LED2" Foreground="White" RenderTransformOrigin="0.5,1.056" Height="20" Canvas.Left="3" Canvas.Top="78" Width="41" FontSize="16"/>
-                <TextBlock Text="LED3" Foreground="White" RenderTransformOrigin="0.5,1.056" Height="20" Canvas.Left="2" Canvas.Top="111" Width="41" FontSize="16"/>
-                <TextBlock Text="LED4" Foreground="White" RenderTransformOrigin="0.5,1.056" Height="20" Canvas.Left="2" Canvas.Top="143" Width="41" FontSize="16"/>
-                <Label Content="{Binding HueLed1}" Background="{Binding ColLed1}" BorderBrush="White" BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="46" Canvas.Top="44" Width="56"   Height="27"  HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="18"/>
-                <Label Content="{Binding HueLed2}" Background="{Binding ColLed2}" BorderBrush="White" BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="46" Canvas.Top="76" Width="56"   Height="27"  HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="18"/>
-                <Label Content="{Binding HueLed3}" Background="{Binding ColLed3}" BorderBrush="White" BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="46" Canvas.Top="108" Width="56"   Height="27"  HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="18"/>
-                <Label Content="{Binding HueLed4}" Background="{Binding ColLed4}" BorderBrush="White" BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="46" Canvas.Top="140" Width="56"   Height="27"  HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="18"/>
+                <TextBlock Text="色相" Foreground="White" RenderTransformOrigin="0.5,1.056" Height="19" Canvas.Left="3" Canvas.Top="44" Width="32" FontSize="16"/>
+                <TextBlock Text="LED1" Foreground="White" RenderTransformOrigin="0.5,1.056" Height="20" Canvas.Left="54" Canvas.Top="25" Width="41" FontSize="16"/>
+                <TextBlock Text="LED2" Foreground="White" RenderTransformOrigin="0.5,1.056" Height="20" Canvas.Left="115" Canvas.Top="25" Width="41" FontSize="16"/>
+                <TextBlock Text="LED3" Foreground="White" RenderTransformOrigin="0.5,1.056" Height="20" Canvas.Left="174" Canvas.Top="26" Width="41" FontSize="16"/>
+                <TextBlock Text="LED4" Foreground="White" RenderTransformOrigin="0.5,1.056" Height="20" Canvas.Left="235" Canvas.Top="26" Width="41" FontSize="16"/>
+                <Label Content="{Binding HueLed1}" Background="{Binding ColLed1}" BorderBrush="White" BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="46" Canvas.Top="46" Width="56"   Height="27"  HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="18"/>
+                <Label Content="{Binding HueLed2}" Background="{Binding ColLed2}" BorderBrush="White" BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="107" Canvas.Top="46" Width="56"   Height="27"  HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="18"/>
+                <Label Content="{Binding HueLed3}" Background="{Binding ColLed3}" BorderBrush="White" BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="168" Canvas.Top="46" Width="56"   Height="27"  HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="18"/>
+                <Label Content="{Binding HueLed4}" Background="{Binding ColLed4}" BorderBrush="White" BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="229" Canvas.Top="46" Width="56"   Height="27"  HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" Padding="0" FontSize="18"/>
 
 
 
             </Canvas>
-            <Canvas Height="42" Canvas.Left="4" Width="220" Canvas.Top="38">
+            <Canvas Height="42" Canvas.Left="4" Width="201" Canvas.Top="44">
                 <Canvas.Resources>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="FontSize" Value="14"/>
@@ -131,59 +142,50 @@
                 </Canvas.Resources>
                 <TextBlock TextWrapping="Wrap" Foreground="White" RenderTransformOrigin="0.494,0.611" Height="19" Canvas.Left="5" Width="124" FontSize="16"><Run Text="VR1調整値"/></TextBlock>
                 <Label BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="98" Width="98" Background="{Binding ColVr}" Height="25" FontSize="18" Content="{Binding Vr}"  HorizontalContentAlignment="Center" Canvas.Top="10" />
-                <Polyline Points="0,0 80,0 90,16 190,16" Stroke="#FF0E85D6" StrokeThickness="1" Canvas.Left="5" Width="198" Canvas.Top="21" Height="26">
-                    <Polyline.Effect>
-                        <DropShadowEffect Color="#FF7EC1F0" Direction="50" ShadowDepth="0"/>
-                    </Polyline.Effect>
+                <Polyline Points="0,0 80,0 90,16 190,16" Stroke="White" StrokeThickness="1" Canvas.Left="5" Width="198" Canvas.Top="21" Height="26">
                 </Polyline>
             </Canvas>
-            <Canvas Height="42" Canvas.Left="4" Width="220" Canvas.Top="83">
+            <Canvas Height="42" Canvas.Left="4" Width="201" Canvas.Top="89">
                 <Canvas.Resources>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="FontSize" Value="14"/>
                     </Style>
                 </Canvas.Resources>
-                <TextBlock TextWrapping="Wrap" Foreground="White" RenderTransformOrigin="0.494,0.611" Height="19" Canvas.Left="5" Width="71" FontSize="16"><Run Text="消費電流"/></TextBlock>
+                <TextBlock TextWrapping="Wrap" Foreground="White" RenderTransformOrigin="0.494,0.611" Height="19" Canvas.Left="16" Width="68" FontSize="16"><Run Text="消費電流"/></TextBlock>
                 <Label BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="95" Canvas.Top="10" Width="99" Background="{Binding ColCurr}" Height="25" FontSize="18" HorizontalContentAlignment="Center" Content="{Binding Curr}" />
-                <Polyline Points="0,0 80,0 90,16 190,16" Stroke="#FF0E85D6" StrokeThickness="1" Canvas.Left="4" Width="198" Canvas.Top="21" Height="26">
-                    <Polyline.Effect>
-                        <DropShadowEffect Color="#FF7EC1F0" Direction="50" ShadowDepth="0"/>
-                    </Polyline.Effect>
+                <Polyline Points="0,0 80,0 90,16 190,16" Stroke="White" StrokeThickness="1" Canvas.Left="4" Width="198" Canvas.Top="21" Height="26">
                 </Polyline>
             </Canvas>
-            <Canvas Height="42" Canvas.Left="4" Width="201" Canvas.Top="131">
+            <Canvas Height="42" Canvas.Left="4" Width="201" Canvas.Top="137">
                 <Canvas.Resources>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="FontSize" Value="14"/>
                     </Style>
                 </Canvas.Resources>
-                <TextBlock TextWrapping="Wrap" Foreground="White" RenderTransformOrigin="0.494,0.611" Height="19" Canvas.Left="5" Width="71" FontSize="16"><Run Text="+5V電圧"/></TextBlock>
-                <Label BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="97" Canvas.Top="10" Width="90" Background="{Binding ColVol5v}" Height="25" FontSize="16" Content="{Binding Vol5v}" HorizontalContentAlignment="Center" />
-                <Polyline Points="0,0 80,0 90,16 190,16" Stroke="#FF0E85D6" StrokeThickness="1" Canvas.Left="4" Width="198" Canvas.Top="20" Height="26">
-                    <Polyline.Effect>
-                        <DropShadowEffect Color="#FF7EC1F0" Direction="50" ShadowDepth="0"/>
-                    </Polyline.Effect>
+                <TextBlock TextWrapping="Wrap" Foreground="White" RenderTransformOrigin="0.494,0.611" Height="19" Canvas.Left="14" Width="71" FontSize="16"><Run Text="+5V電圧"/></TextBlock>
+                <Label BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="97" Canvas.Top="10" Width="90" Background="{Binding ColVol5v}" Height="25" FontSize="18" Content="{Binding Vol5v}" HorizontalContentAlignment="Center" />
+                <Polyline Points="0,0 80,0 90,16 190,16" Stroke="White" StrokeThickness="1" Canvas.Left="4" Width="198" Canvas.Top="21" Height="26">
                 </Polyline>
             </Canvas>
-            <Canvas Height="158" Canvas.Left="226" Width="229" Canvas.Top="40">
+            <Canvas Height="171" Canvas.Left="226" Width="198" Canvas.Top="31">
                 <Canvas.Resources>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="FontSize" Value="14"/>
                     </Style>
                 </Canvas.Resources>
-                <TextBlock TextWrapping="Wrap" Foreground="White" RenderTransformOrigin="0.494,0.611" Height="19" Canvas.Left="5" Width="124" FontSize="16"><Run Text="ブザー検査"/></TextBlock>
-                <Border BorderBrush="#FF0097FF" BorderThickness="1" Height="1" Canvas.Left="5" Canvas.Top="19" Width="218" Background="#FF0097FF" RenderTransformOrigin="0.5,0.5">
+                <TextBlock TextWrapping="Wrap" Foreground="White" RenderTransformOrigin="0.494,0.611" Height="21" Canvas.Left="5" Width="84" FontSize="16" Canvas.Top="4"><Run Text="ブザー検査"/></TextBlock>
+                <Border BorderBrush="#FF0097FF" BorderThickness="1" Height="1" Canvas.Left="5" Canvas.Top="24" Width="182" Background="#FF0097FF" RenderTransformOrigin="0.5,0.5">
                     <Border.Effect>
                         <DropShadowEffect Color="#FF00F3FF" BlurRadius="50" Direction="0" ShadowDepth="0"/>
                     </Border.Effect>
                 </Border>
-                <Label BorderBrush="White" BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="129" Canvas.Top="26" Width="94" Background="{Binding ColP130}" Height="26" FontSize="18" Content="{Binding P130}" HorizontalContentAlignment="Center" />
-                <TextBlock Text="P130発振周波数" Foreground="White" RenderTransformOrigin="0.494,0.611" Height="19" Canvas.Top="27" Width="125" Canvas.Left="4" FontSize="16" />
-                <Label BorderBrush="White" BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="129" Canvas.Top="57" Width="94" Background="{Binding ColBuz}" Height="26" FontSize="18" Content="{Binding Buz}" HorizontalContentAlignment="Center" />
-                <TextBlock Text="ブザー周波数" Foreground="White" RenderTransformOrigin="0.494,0.611" Height="19" Canvas.Top="60" Width="96" Canvas.Left="27" FontSize="16" />
-                <Label BorderBrush="White" BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="129" Canvas.Top="88" Width="94" Background="{Binding ColBuzLev}" Height="26" FontSize="18" Content="{Binding BuzLev}" HorizontalContentAlignment="Center" />
-                <TextBlock Text="ブザー音圧" Foreground="White" RenderTransformOrigin="0.494,0.611" Height="19" Canvas.Top="90" Width="84" Canvas.Left="42" FontSize="16" />
-                <ProgressBar Height="30" Canvas.Left="5" Canvas.Top="122" Width="169" Value="{Binding VolLev}" FontFamily="Yu Gothic" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderThickness="1" SmallChange="0.01" Maximum="1">
+                <Label BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="84" Canvas.Top="38" Width="94" Background="{Binding ColP130}" Height="26" FontSize="18" Content="{Binding P130}" HorizontalContentAlignment="Center" />
+                <TextBlock Text="P130出力" Foreground="White" Height="21" Canvas.Top="29" Width="74" Canvas.Left="4" FontSize="16" />
+                <Label BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="85" Canvas.Top="73" Width="94" Background="{Binding ColBuz}" Height="26" FontSize="18" Content="{Binding Buz}" HorizontalContentAlignment="Center" />
+                <TextBlock Text="周波数" Foreground="White" RenderTransformOrigin="0.494,0.611" Height="22" Canvas.Top="63" Width="53" FontSize="16" Canvas.Left="20" />
+                <Label BorderThickness="1" VerticalContentAlignment="Center" Canvas.Left="84" Canvas.Top="106" Width="94" Background="{Binding ColBuzLev}" Height="26" FontSize="18" Content="{Binding BuzLev}" HorizontalContentAlignment="Center" />
+                <TextBlock Text="音圧" Foreground="White" RenderTransformOrigin="0.494,0.611" Height="19" Canvas.Top="97" Width="34" Canvas.Left="35" FontSize="16" />
+                <ProgressBar Height="21" Canvas.Left="11" Width="164" Value="{Binding VolLev}" FontFamily="Yu Gothic" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderThickness="1" SmallChange="0.01" Maximum="1" Canvas.Top="144">
                     <ProgressBar.BorderBrush>
                         <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                             <GradientStop Color="#FFB2B2B2" Offset="0"/>
@@ -191,7 +193,7 @@
                         </LinearGradientBrush>
                     </ProgressBar.BorderBrush>
                 </ProgressBar>
-                <TextBlock TextWrapping="Wrap" Text="{Binding Freq}" Foreground="White" RenderTransformOrigin="0.494,0.611" Height="24" Canvas.Left="7" Canvas.Top="125" Width="80" FontFamily="Yu Gothic" FontSize="16">
+                <TextBlock TextWrapping="Wrap" Foreground="White" RenderTransformOrigin="0.494,0.611" Height="21" Canvas.Left="13" Width="95" FontFamily="Yu Gothic" FontSize="16" Canvas.Top="143" Text="{Binding Freq}">
                     <TextBlock.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -201,8 +203,11 @@
                         </TransformGroup>
                     </TextBlock.RenderTransform>
                 </TextBlock>
+                <Polyline Points="0,0 70,0 80,16 180,16" Stroke="White" StrokeThickness="1" Canvas.Left="3" Width="184" Canvas.Top="50" Height="22"/>
+                <Polyline Points="0,0 70,0 80,16 180,16" Stroke="White" StrokeThickness="1" Canvas.Left="3" Width="184" Canvas.Top="118" Height="22"/>
+                <Polyline Points="0,0 70,0 80,16 180,16" Stroke="White" StrokeThickness="1" Canvas.Left="3" Width="184" Canvas.Top="84" Height="22"/>
             </Canvas>
-            <Canvas x:Name="canvasLedTest_Copy" Height="107" Canvas.Left="138" Canvas.Top="210" Width="311">
+            <Canvas x:Name="canvasLedTest_Copy" Height="102" Canvas.Left="8" Canvas.Top="279" Width="311">
                 <Canvas.Resources>
                     <Style TargetType="{x:Type Label}">
                         <Setter Property="Foreground" Value="White"/>
@@ -235,7 +240,7 @@
 
 
 
-        <Canvas x:Name="CanvasStatus" Height="78" Canvas.Left="438" Canvas.Top="65" Width="432">
+        <Canvas x:Name="CanvasStatus" Height="88" Canvas.Left="433" Canvas.Top="64" Width="467">
             <Canvas.Resources>
                 <Style TargetType="{x:Type Label}">
                     <Setter Property="FontSize" Value="11"/>
@@ -249,19 +254,31 @@
                     </Setter>
                 </Style>
             </Canvas.Resources>
-            <Canvas.Background>
-                <SolidColorBrush Color="Black" Opacity="0.2"/>
-            </Canvas.Background>
+
+            <Rectangle Height="84" RenderTransformOrigin="0.5,0.5" Width="465" RadiusX="8" RadiusY="8" Canvas.Left="1" Canvas.Top="1">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="#FFFFFBFB" Opacity="0.05"/>
+                </Rectangle.Fill>
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
 
             <TextBlock TextWrapping="Wrap" Text="Status" FontSize="18" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" Width="60" Canvas.Left="7" Canvas.Top="5"/>
-            <StackPanel x:Name="stackPanel機器ステータス" Height="25" Canvas.Top="31" Width="311" Orientation="Horizontal" Canvas.Left="78">
+            <StackPanel x:Name="stackPanel機器ステータス" Height="25" Canvas.Top="33" Width="379" Orientation="Horizontal" Canvas.Left="78">
                 <Label Content="IO" Background="{Binding Color1768}" BorderThickness="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="55" FontSize="14"/>
                 <Label Content="MOXA" Background="{Binding ColorMoxa}" BorderThickness="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="51" FontSize="14"/>
-                <Label x:Name="labelCamera" Content="カメラ"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="{Binding ColorCAMERA}" BorderThickness="1" Width="56" FontSize="14" />
+                <Label x:Name="labelCamera1" Content="カメラ1"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="{Binding ColorCAMERA}" BorderThickness="1" Width="58" FontSize="14" />
+                <Label x:Name="labelCamera2" Content="カメラ2"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="{Binding ColorCAMERA}" BorderThickness="1" Width="58" FontSize="14" />
                 <Label Content="マイク"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="{Binding ColorMic}" BorderThickness="1" Width="56" FontSize="14" />
-                <Label Content="マルチメータ"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="{Binding ColorMultimeter}" BorderThickness="1" Width="89" FontSize="14" />
+                <Label Content="マルチメータ"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="{Binding ColorMultimeter}" BorderThickness="1" Width="92" FontSize="14" />
             </StackPanel>
-            <TextBlock x:Name="textBlock2_Copy5" TextWrapping="Wrap" Text="周辺機器" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="68" RenderTransformOrigin="0.5,0.5" Canvas.Top="33" Canvas.Left="8">
+            <TextBlock x:Name="textBlock2_Copy5" TextWrapping="Wrap" Text="周辺機器" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="68" RenderTransformOrigin="0.5,0.5" Canvas.Top="35" Canvas.Left="8">
                 <TextBlock.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -271,7 +288,7 @@
                     </TransformGroup>
                 </TextBlock.RenderTransform>
             </TextBlock>
-            <Label Content="" Height="1" Canvas.Left="1" Canvas.Top="26" Width="431" Background="#FF0388F7">
+            <Label Content="" Height="1" Canvas.Left="7" Canvas.Top="27" Width="431" Background="#FF0388F7">
                 <Label.Effect>
                     <DropShadowEffect Color="#FF09A0F7" Direction="0" ShadowDepth="0" BlurRadius="20"/>
                 </Label.Effect>
@@ -305,7 +322,7 @@
                 <DropShadowEffect Color="#FF00FFF3" BlurRadius="20" Direction="0" ShadowDepth="0"/>
             </Label.Effect>
         </Label>
-        <Canvas Height="268" Canvas.Top="65" Width="392" Canvas.Left="8">
+        <Canvas Height="268" Canvas.Top="65" Width="392" Canvas.Left="12">
             <Canvas.Resources>
                 <Style TargetType="{x:Type Label}">
                     <Setter Property="FontSize" Value="11"/>
@@ -319,38 +336,42 @@
                     </Setter>
                 </Style>
             </Canvas.Resources>
-            <Canvas.Background>
-                <SolidColorBrush Color="Black" Opacity="0.3"/>
-            </Canvas.Background>
 
-            <TextBox x:Name="tbTestLog" Height="215" Canvas.Left="8" TextWrapping="Wrap" Canvas.Top="45" Width="374" BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" VerticalScrollBarVisibility="Auto" SelectionBrush="{x:Null}" BorderThickness="0" CaretBrush="{x:Null}" IsReadOnly="True" FontSize="18" TextChanged="tbTestLog_TextChanged" Text="{Binding TestLog}">
+            <Rectangle Height="269" RenderTransformOrigin="0.5,0.5" Width="391" RadiusX="8" RadiusY="8" Canvas.Left="1">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="#FFFFFBFB" Opacity="0.05"/>
+                </Rectangle.Fill>
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+
+            <TextBox x:Name="tbTestLog" Height="224" Canvas.Left="8" TextWrapping="Wrap" Canvas.Top="34" Width="374" BorderBrush="{x:Null}" Foreground="White" Background="{x:Null}" VerticalScrollBarVisibility="Auto" SelectionBrush="{x:Null}" BorderThickness="0" CaretBrush="{x:Null}" IsReadOnly="True" FontSize="18" TextChanged="tbTestLog_TextChanged" Text="{Binding TestLog}">
                 <TextBox.Effect>
                     <DropShadowEffect Color="#FF00E8FF" BlurRadius="15" Direction="0" ShadowDepth="0"/>
                 </TextBox.Effect>
             </TextBox>
             <TextBlock TextWrapping="Wrap" Text="テストログ" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="25" Width="100" Canvas.Left="6" Canvas.Top="7"/>
-            <Label Content="" Height="1" Canvas.Top="33" Width="392" Background="#FF0388F7">
+            <Label Content="" Height="1" Canvas.Top="28" Width="376" Background="#FF0388F7" Canvas.Left="6">
                 <Label.Effect>
                     <DropShadowEffect Color="#FF09A0F7" Direction="0" ShadowDepth="0" BlurRadius="20"/>
                 </Label.Effect>
             </Label>
-            <Label x:Name="tbTestTime" Content="{Binding TestTime}" HorizontalAlignment="Left" VerticalAlignment="Center" Height="24" Width="77" Canvas.Left="230" FontSize="18" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Canvas.Top="8"/>
-            <Label x:Name="labelStateRetry" Content="リトライ" Height="25" Canvas.Left="319" Width="67" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="1" Canvas.Top="5" Background="#FF0C92F0" Visibility="{Binding RetryLabelVis}" FontSize="14"/>
         </Canvas>
 
 
-        <Canvas x:Name="canvasDecision" Height="326" Canvas.Top="338" Width="436" Canvas.Left="-3">
+        <Canvas x:Name="canvasDecision" Height="326" Canvas.Top="338" Width="431" Canvas.Left="-3">
             <Canvas x:Name="stackPanelErrInfo" Canvas.Top="238" Visibility="{Binding ErrInfoVisibility}" RenderTransformOrigin="0.5,0.5" Height="87" Width="394" Canvas.Left="8">
-                <Label x:Name="labelエラー情報" Content="{Binding FailInfo}" FontSize="14" FontStyle="Italic" RenderTransformOrigin="0.5,0.5" Foreground="White" VerticalContentAlignment="Center" Effect="{Binding ColorDecision}" Height="26" Width="360"/>
-                <Label x:Name="label規格値" Content="{Binding Spec}" FontSize="14" FontStyle="Italic" Foreground="White" VerticalContentAlignment="Center" Effect="{Binding ColorDecision}" Height="27" Width="360" Canvas.Top="26" />
-                <Label x:Name="label計測値" Content="{Binding MeasValue}" FontSize="14" FontStyle="Italic" RenderTransformOrigin="0.5,0.5" Foreground="White" VerticalContentAlignment="Center" Effect="{Binding ColorDecision}" Height="26" Width="360" Canvas.Top="56" />
-                <Button x:Name="ButtonErrInfo" Content="詳細表示" Style="{DynamicResource SquareButtonStyle}" Height="36" Canvas.Top="46" Width="82" FontSize="14" Visibility="{Binding EnableButtonErrInfo}" Foreground="White" BorderBrush="#FFF50C8B" Canvas.Left="306" Click="ButtonErrInfo_Click" FontFamily="Century Gothic" FontWeight="Normal" BorderThickness="1">
-                    <Button.Background>
-                        <SolidColorBrush Color="#FFDC1682" Opacity="0.3"/>
-                    </Button.Background>
-                </Button>
+                <Label x:Name="labelエラー情報" Content="{Binding FailInfo}" FontSize="16" FontStyle="Italic" RenderTransformOrigin="0.5,0.5" Foreground="White" VerticalContentAlignment="Center" Effect="{Binding ColorDecision}" Height="26" Width="394" Padding="0"/>
+                <Label x:Name="label規格値" Content="{Binding Spec}" FontSize="16" FontStyle="Italic" Foreground="White" VerticalContentAlignment="Center" Effect="{Binding ColorDecision}" Height="26" Width="394" Canvas.Top="29" Padding="0" />
+                <Label x:Name="label計測値" Content="{Binding MeasValue}" FontSize="16" FontStyle="Italic" RenderTransformOrigin="0.5,0.5" Foreground="White" VerticalContentAlignment="Center" Effect="{Binding ColorDecision}" Height="26" Width="394" Canvas.Top="58" Padding="0" />
             </Canvas>
-            <Label x:Name="label判定" Height="128" Width="282" FontSize="116" FontStyle="Italic" RenderTransformOrigin="0.5,0.5" Foreground="{Binding Colorlabel判定}" Effect="{Binding ColorDecision}" Visibility="{Binding DecisionVisibility}" Margin="0" HorizontalAlignment="Center" Canvas.Left="75" Background="{x:Null}" VerticalAlignment="Center" Canvas.Top="55" Padding="0" Content="{Binding Decision}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center">
+            <Label x:Name="label判定" Height="128" Width="280" FontSize="116" FontStyle="Italic" RenderTransformOrigin="0.5,0.5" Foreground="{Binding Colorlabel判定}" Effect="{Binding ColorDecision}" Visibility="{Binding DecisionVisibility}" Margin="0" HorizontalAlignment="Center" Canvas.Left="74" Background="{x:Null}" VerticalAlignment="Center" Canvas.Top="55" Padding="0" Content="{Binding Decision}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center">
                 <Label.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="1.5" ScaleY="1.8"/>
@@ -359,29 +380,39 @@
             </Label>
         </Canvas>
 
-        <Canvas x:Name="canvasTestSetting" Height="99" Canvas.Left="952" Canvas.Top="170" Width="381" IsEnabled="{Binding TestSettingEnable}">
-            <Canvas.Background>
-                <SolidColorBrush Color="Black" Opacity="0.2"/>
-            </Canvas.Background>
-            <Canvas x:Name="canvasUnitTest" Height="40" Canvas.Top="57" Width="374" IsVisibleChanged="canvasUnitTest_IsVisibleChanged" IsEnabled="{Binding UnitTestEnable}" Canvas.Left="2">
+        <Canvas x:Name="canvasTestSetting" Height="114" Canvas.Left="907" Canvas.Top="155" Width="240" IsEnabled="{Binding TestSettingEnable}">
+            <Rectangle Height="111" RenderTransformOrigin="0.5,0.5" Width="231" RadiusX="8" RadiusY="8" Canvas.Top="1">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="#FFFFFBFB" Opacity="0.05"/>
+                </Rectangle.Fill>
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Canvas x:Name="canvasUnitTest" Height="67" Canvas.Top="47" Width="224" IsVisibleChanged="canvasUnitTest_IsVisibleChanged" IsEnabled="{Binding UnitTestEnable}" Canvas.Left="2">
                 <CheckBox x:Name="CheckBoxUnitTest" Content="単体試験" IsChecked="{Binding CheckUnitTest}" Height="27" Width="94" Background="White" Foreground="#FFFDFDFD" Canvas.Left="5" Canvas.Top="5" FontSize="16"/>
-                <ComboBox x:Name="cbUnitTest" Height="32" Width="265" ItemsSource="{Binding UnitTestItems}" SelectedItem="{Binding UnitTestName}" BorderBrush="White" Canvas.Left="103" VerticalContentAlignment="Center" Canvas.Top="2" Background="{x:Null}" FontSize="16"/>
+                <ComboBox x:Name="cbUnitTest" Height="27" Width="215" ItemsSource="{Binding UnitTestItems}" SelectedItem="{Binding UnitTestName}" BorderBrush="White" Canvas.Left="5" VerticalContentAlignment="Center" Canvas.Top="32" Background="{x:Null}" FontSize="14"/>
             </Canvas>
-            <CheckBox x:Name="CheckBoxWriteFw" Content="検査ソフト書き込みパス" Height="27" Width="180" Background="White" Foreground="#FFFDFDFD" Canvas.Left="7" IsChecked="{Binding CheckWriteTestFwPass}" Canvas.Top="29" FontSize="16"/>
+            <CheckBox x:Name="CheckBoxWriteFw" Content="検査ソフト書き込みパス" Height="27" Width="180" Background="White" Foreground="#FFFDFDFD" Canvas.Left="7" IsChecked="{Binding CheckWriteTestFwPass}" Canvas.Top="26" FontSize="16"/>
             <TextBlock TextWrapping="Wrap" Text="テストオプション" FontSize="18" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="24" Width="153" RenderTransformOrigin="0.5,0.5" Canvas.Top="2" Canvas.Left="7"/>
         </Canvas>
         <Canvas x:Name="canvasRing" Width="260" Height="260" Canvas.Left="65"  Opacity="{Binding RingOpacity}" Visibility="{Binding RingVisibility}" RenderTransformOrigin="0.5,0.5" Canvas.Top="368">
 
-            <ed:Arc x:Name="ProgressBack" ArcThickness="2" ArcThicknessUnit="Pixel" EndAngle="360" Fill="#FF758C99"  Canvas.Left="7" Stretch="None" StartAngle="0" Canvas.Top="6" Width="240" Height="240" Opacity="0.3"/>
+            <ed:Arc x:Name="ProgressBack" ArcThickness="3" ArcThicknessUnit="Pixel" EndAngle="360" Fill="#FF758C99"  Canvas.Left="7" Stretch="None" StartAngle="0" Canvas.Top="6" Width="240" Height="240" Opacity="0.3"/>
 
-            <ed:Arc x:Name="ProgressRing" ArcThickness="2" ArcThicknessUnit="Pixel" Fill="#FFFBFBFB" Width="240" Height="240" Canvas.Left="7" Stretch="None" 
+            <ed:Arc x:Name="ProgressRing" ArcThickness="3" ArcThicknessUnit="Pixel" Fill="White" Width="240" Height="240" Canvas.Left="7" Stretch="None" 
 				StartAngle="0" EndAngle="{Binding 進捗度, Converter={StaticResource AngleConverter}}" Canvas.Top="6">
                 <ed:Arc.Effect>
                     <DropShadowEffect Color="#FF0072FB" Direction="0" ShadowDepth="0" BlurRadius="60"/>
                 </ed:Arc.Effect>
 
             </ed:Arc>
-            <Label x:Name="labelProgress" Content="{Binding 進捗度, Converter={StaticResource ProgConverter}}" Canvas.Left="44" Canvas.Top="58" FontSize="60" RenderTransformOrigin="0.432,0.208" Width="166" HorizontalContentAlignment="Center" Height="100" FontFamily="Segoe UI Light" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0">
+            <Label x:Name="labelProgress" Canvas.Left="44" Canvas.Top="33" FontSize="60" RenderTransformOrigin="0.432,0.208" Width="166" HorizontalContentAlignment="Center" Height="70" FontFamily="Segoe UI Light" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0" Content="{Binding 進捗度, Converter={StaticResource ProgConverter}}">
                 <Label.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleY="1.4"/>
@@ -391,7 +422,33 @@
                     </TransformGroup>
                 </Label.RenderTransform>
                 <Label.Effect>
-                    <DropShadowEffect Color="#FF0BF0FB" BlurRadius="20" Direction="0" ShadowDepth="0"/>
+                    <DropShadowEffect Color="#FF135DDE" BlurRadius="20" Direction="0" ShadowDepth="0"/>
+                </Label.Effect>
+            </Label>
+            <Label x:Name="tbTestTime" HorizontalAlignment="Left" VerticalAlignment="Center" Height="46" Width="86" Canvas.Left="84" FontSize="36" Foreground="White" FontFamily="Segoe UI Light" Padding="0" Canvas.Top="130" Content="{Binding TestTime}">
+                <Label.Effect>
+                    <DropShadowEffect Color="#FF135DDE" BlurRadius="20" Direction="0" ShadowDepth="0"/>
+                </Label.Effect>
+            </Label>
+            <Rectangle Fill="#FFFBFBFB" Height="2" Canvas.Left="32" Canvas.Top="127" Width="190" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <DropShadowEffect Color="#FF0072FB" Direction="0" ShadowDepth="0" BlurRadius="60"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Label x:Name="labelStateRetry" Content="リトライ" Height="23" Canvas.Left="89" Width="76" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="1" Canvas.Top="185" Visibility="{Binding RetryLabelVis}" FontSize="14" Padding="0">
+                <Label.Background>
+                    <SolidColorBrush Color="#FF00AEFF" Opacity="0.5"/>
+                </Label.Background>
+                <Label.Effect>
+                    <DropShadowEffect Color="#FF6DE0E6" Direction="0" ShadowDepth="0" BlurRadius="20"/>
                 </Label.Effect>
             </Label>
 
@@ -401,7 +458,7 @@
                 <DropShadowEffect Color="#FF09A0F7" Direction="0" ShadowDepth="0" BlurRadius="20"/>
             </Label.Effect>
         </Label>
-        <Canvas x:Name="canvasCommIo" Height="101" Canvas.Left="439" Canvas.Top="154" Width="213">
+        <Canvas x:Name="canvasCommIo" Height="101" Canvas.Left="437" Canvas.Top="157" Width="213">
             <Canvas.Resources>
                 <Style TargetType="{x:Type Label}">
                     <Setter Property="FontSize" Value="11"/>
@@ -416,9 +473,19 @@
                 </Style>
 
             </Canvas.Resources>
-            <Canvas.Background>
-                <SolidColorBrush Color="Black" Opacity="0.3"/>
-            </Canvas.Background>
+            <Rectangle Height="105" RenderTransformOrigin="0.5,0.5" Width="451" RadiusX="8" RadiusY="8" Canvas.Left="-2">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="#FFFFFBFB" Opacity="0.05"/>
+                </Rectangle.Fill>
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
             <TextBlock Height="24" Canvas.Left="36" Canvas.Top="31" Width="155" Padding="0" TextWrapping="Wrap" Foreground="White" FontFamily="Segoe UI Light" FontSize="20" Text="{Binding TX_IO}"/>
             <TextBlock Text="{Binding RX_IO}" Height="24" Canvas.Left="35" Canvas.Top="60" Width="155" FontSize="20" Padding="0" TextWrapping="Wrap" Foreground="White" FontFamily="Segoe UI Light"/>
             <TextBlock x:Name="textBlock2_Copy" TextWrapping="Wrap" Text="Tx" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="21" RenderTransformOrigin="0.5,0.5" Canvas.Top="26" Canvas.Left="3">
@@ -441,24 +508,16 @@
                     </TransformGroup>
                 </TextBlock.RenderTransform>
             </TextBlock>
-            <TextBlock TextWrapping="Wrap" Text="通信ログ vs IO" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="184" RenderTransformOrigin="0.5,0.5"/>
-            <Label Content="" Height="1" Canvas.Left="1" Canvas.Top="20" Width="196" Background="#FF0388F7">
+            <TextBlock TextWrapping="Wrap" Text="通信ログ vs IO" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="120" RenderTransformOrigin="0.5,0.5" Canvas.Left="3" Canvas.Top="2"/>
+            <Label Content="" Height="1" Canvas.Left="3" Canvas.Top="22" Width="196" Background="#FF0388F7">
                 <Label.Effect>
                     <DropShadowEffect Color="#FF09A0F7" Direction="0" ShadowDepth="0" BlurRadius="20"/>
                 </Label.Effect>
             </Label>
-            <Polyline Points="0,0 25,0 30,10 190,10" Stroke="#FF0E85D6" StrokeThickness="1" Canvas.Left="2" Width="198" Canvas.Top="46" Height="26">
-                <Polyline.Effect>
-                    <DropShadowEffect Color="#FF7EC1F0" Direction="50" ShadowDepth="0"/>
-                </Polyline.Effect>
-            </Polyline>
-            <Polyline Points="0,0 25,0 30,10 190,10" Stroke="#FF0E85D6" StrokeThickness="1" Canvas.Left="2" Width="198" Canvas.Top="75" Height="26">
-                <Polyline.Effect>
-                    <DropShadowEffect Color="#FF7EC1F0" Direction="50" ShadowDepth="0"/>
-                </Polyline.Effect>
-            </Polyline>
+            <Polyline Points="0,0 25,0 30,10 190,10" Stroke="White" StrokeThickness="1" Canvas.Left="2" Width="198" Canvas.Top="46" Height="26"/>
+            <Polyline Points="0,0 25,0 30,10 190,10" Stroke="White" StrokeThickness="1" Canvas.Left="2" Width="198" Canvas.Top="75" Height="26"/>
         </Canvas>
-        <Controls:ProgressRing x:Name="RingWait" Canvas.Left="179" Canvas.Top="184" Height="30" Width="30" IsActive="{Binding IsActiveRing}">
+        <Controls:ProgressRing x:Name="RingWait" Canvas.Left="181" Canvas.Top="203" Height="30" Width="30" IsActive="{Binding IsActiveRing}">
             <!--<Controls:ProgressRing.Effect>
                 <DropShadowEffect Color="#FFF7F9F9" Direction="0" ShadowDepth="0" BlurRadius="10"/>
             </Controls:ProgressRing.Effect>-->
@@ -466,14 +525,21 @@
                 <SolidColorBrush Color="#CC1BC1FF" Opacity="0.3"/>
             </Controls:ProgressRing.Foreground>
         </Controls:ProgressRing>
-        <Canvas x:Name="CanvasImg1" Canvas.Left="939" Canvas.Top="394" Width="397" Height="232">
-            <Border BorderBrush="DodgerBlue"  BorderThickness="1" Height="224" Width="390" Canvas.Left="2" Canvas.Top="3"/>
-            <Image x:Name="im1" Width="384" Height="216" Stretch="UniformToFill" Source="{Binding source}" Canvas.Left="5" Canvas.Top="6" Opacity="{Binding ImageOpacity}" />
-            <Controls:ProgressRing x:Name="Ring1" Foreground="{DynamicResource AccentColorBrush}" Canvas.Left="184" Canvas.Top="102" Height="30" Width="30" IsActive="{Binding IsActive}"/>
-            <TextBlock x:Name="textBlock2_Copy7" TextWrapping="Wrap" Text="LIVE" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" Width="45" RenderTransformOrigin="0.5,0.5" Canvas.Top="7" Canvas.Left="7" FontSize="16"/>
+        <Canvas x:Name="CanvasImg1" Canvas.Left="1005" Canvas.Top="276" Width="332" Height="192">
+            <Border BorderBrush="DodgerBlue"  BorderThickness="1" Height="186" Width="326" Canvas.Left="2" Canvas.Top="3"/>
+            <Image x:Name="im1" Width="320" Height="180" Stretch="UniformToFill" Source="{Binding source}" Canvas.Left="5" Canvas.Top="6" Opacity="{Binding ImageOpacity}" />
+            <Controls:ProgressRing x:Name="Ring1" Foreground="{DynamicResource AccentColorBrush}" Canvas.Left="149" Canvas.Top="77" Height="30" Width="30" IsActive="{Binding IsActive}"/>
+            <TextBlock TextWrapping="Wrap" Text="LIVE" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" Width="45" RenderTransformOrigin="0.5,0.5" Canvas.Top="7" Canvas.Left="7" FontSize="16"/>
             <!-- ImageのWidthとHeightを個別に設定しないとUniformToFillが無効になります！！！ -->
         </Canvas>
-        <Canvas x:Name="CanvasComm_Copy" Height="88" Canvas.Left="890" Canvas.Top="65" Width="445">
+        <Canvas x:Name="CanvasImg2" Canvas.Left="1005" Canvas.Top="468" Width="332" Height="192">
+            <Border BorderBrush="DodgerBlue"  BorderThickness="1" Height="186" Width="326" Canvas.Left="2" Canvas.Top="3"/>
+            <Image x:Name="im2" Width="320" Height="180" Stretch="UniformToFill" Source="{Binding source}" Canvas.Left="5" Canvas.Top="6" Opacity="{Binding ImageOpacity}" />
+            <Controls:ProgressRing x:Name="Ring2" Foreground="{DynamicResource AccentColorBrush}" Canvas.Left="149" Canvas.Top="77" Height="30" Width="30" IsActive="{Binding IsActive}"/>
+            <TextBlock TextWrapping="Wrap" Text="LIVE" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="22" Width="45" RenderTransformOrigin="0.5,0.5" Canvas.Top="7" Canvas.Left="7" FontSize="16"/>
+            <!-- ImageのWidthとHeightを個別に設定しないとUniformToFillが無効になります！！！ -->
+        </Canvas>
+        <Canvas x:Name="CanvasComm_Copy" Height="88" Canvas.Left="915" Canvas.Top="64" Width="415">
             <Canvas.Resources>
                 <Style TargetType="{x:Type Label}">
                     <Setter Property="FontSize" Value="18"/>
@@ -488,11 +554,21 @@
                     </Setter>
                 </Style>
             </Canvas.Resources>
-            <Canvas.Background>
-                <SolidColorBrush Color="Black" Opacity="0.2"/>
-            </Canvas.Background>
-            <Label Content="{Binding FwVer}" Height="25" Canvas.Left="92" Canvas.Top="39" Width="93" BorderBrush="White" BorderThickness="1" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light"/>
-            <Label Content="{Binding FwSum}" Height="26" Canvas.Left="301" Canvas.Top="38" Width="108" BorderBrush="White" BorderThickness="1" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light"/>
+            <Rectangle Height="84" RenderTransformOrigin="0.5,0.5" Width="410" RadiusX="8" RadiusY="8">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="#FFFFFBFB" Opacity="0.05"/>
+                </Rectangle.Fill>
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Label Content="{Binding FwVer}" Height="25" Canvas.Left="76" Canvas.Top="39" Width="93" BorderBrush="White" BorderThickness="1" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light"/>
+            <Label Content="{Binding FwSum}" Height="26" Canvas.Left="281" Canvas.Top="38" Width="108" BorderBrush="White" BorderThickness="1" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI Light"/>
             <TextBlock x:Name="textBlock2_Copy8" TextWrapping="Wrap" Text="バージョン" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="90" RenderTransformOrigin="0.5,0.5" Canvas.Top="41" Canvas.Left="8">
                 <TextBlock.RenderTransform>
                     <TransformGroup>
@@ -503,7 +579,7 @@
                     </TransformGroup>
                 </TextBlock.RenderTransform>
             </TextBlock>
-            <TextBlock x:Name="textBlock2_Copy9" TextWrapping="Wrap" Text="チェックサム" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="97" RenderTransformOrigin="0.5,0.5" Canvas.Top="39" Canvas.Left="201">
+            <TextBlock x:Name="textBlock2_Copy9" TextWrapping="Wrap" Text="チェックサム" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="79" RenderTransformOrigin="0.5,0.5" Canvas.Top="39" Canvas.Left="199">
                 <TextBlock.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -523,12 +599,12 @@
                     </TransformGroup>
                 </TextBlock.RenderTransform>
             </TextBlock>
-            <Label Content="" Height="1" Canvas.Left="8" Canvas.Top="28" Width="430" Background="#FF0388F7">
+            <Label Content="" Height="1" Canvas.Left="8" Canvas.Top="28" Width="381" Background="#FF0388F7">
                 <Label.Effect>
                     <DropShadowEffect Color="#FF09A0F7" Direction="0" ShadowDepth="0" BlurRadius="20"/>
                 </Label.Effect>
             </Label>
-            <TextBlock x:Name="textBlock2_Copy14" TextWrapping="Wrap" Text="※履歴表に記入してください！！" FontSize="20" Foreground="#FFFF1DFF" HorizontalAlignment="Left" VerticalAlignment="Center" Height="28" Width="314" RenderTransformOrigin="0.5,0.5" Canvas.Top="2" Canvas.Left="124">
+            <TextBlock x:Name="textBlock2_Copy14" TextWrapping="Wrap" Text="※履歴表に記入してください！！" FontSize="20" Foreground="#FFFF1DFF" HorizontalAlignment="Left" VerticalAlignment="Center" Height="28" Width="266" RenderTransformOrigin="0.5,0.5" Canvas.Top="2" Canvas.Left="96">
                 <TextBlock.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -539,7 +615,7 @@
                 </TextBlock.RenderTransform>
             </TextBlock>
         </Canvas>
-        <Button x:Name="ButtonStop" Content="{Binding StartButtonContent}" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="65" Width="238" BorderBrush="#FFABD6EA" FontSize="28" Canvas.Left="952" Style="{DynamicResource AccentedSquareButtonStyle}" BorderThickness="1" ClipToBounds="True" Canvas.Top="288" RenderTransformOrigin="11.977,3.9" FontFamily="Segoe UI Light" Click="ButtonStop_Click" IsEnabled="{Binding StartButtonEnable}" >
+        <Button x:Name="ButtonStop" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="65" Width="164" BorderBrush="#FFABD6EA" FontSize="28" Canvas.Left="1166" Style="{DynamicResource AccentedSquareButtonStyle}" BorderThickness="1" ClipToBounds="True" Canvas.Top="199" RenderTransformOrigin="11.977,3.9" FontFamily="Segoe UI Light" Click="ButtonStop_Click" IsEnabled="{Binding ButtonStopEnable}" Content="停止" Visibility="{Binding ButtonStopVis}" >
             <Button.Background>
                 <SolidColorBrush Color="#FF1B4F8D" Opacity="0.15"/>
             </Button.Background>
@@ -547,7 +623,7 @@
                 <DropShadowEffect Color="#FF22F7F7" BlurRadius="50" Direction="0" ShadowDepth="0"/>
             </Button.Effect>
         </Button>
-        <Canvas x:Name="canvasCommTarget" Height="101" Canvas.Left="657" Canvas.Top="154" Width="213">
+        <Canvas x:Name="canvasCommTarget" Height="101" Canvas.Left="666" Canvas.Top="158" Width="213">
             <Canvas.Resources>
                 <Style TargetType="{x:Type Label}">
                     <Setter Property="FontSize" Value="11"/>
@@ -562,13 +638,9 @@
                 </Style>
 
             </Canvas.Resources>
-            <Canvas.Background>
-                <SolidColorBrush Color="Black" Opacity="0.3"/>
-            </Canvas.Background>
             <TextBlock Height="24" Canvas.Left="36" Canvas.Top="31" Width="155" Padding="0" TextWrapping="Wrap" Foreground="White" FontFamily="Segoe UI Light" FontSize="20" Text="{Binding TX_TARGET}"/>
             <TextBlock Text="{Binding RX_TARGET}" Height="24" Canvas.Left="35" Canvas.Top="60" Width="155" FontSize="20" Padding="0" TextWrapping="Wrap" Foreground="White" FontFamily="Segoe UI Light"/>
-            <TextBlock x:Name="textBlock2_Copy2" TextWrapping="Wrap" Text="Tx" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="21" RenderTransformOrigin="0.5,0.5" Canvas.Top="26" Canvas.Left="3">
-            </TextBlock>
+            <TextBlock x:Name="textBlock2_Copy2" TextWrapping="Wrap" Text="Tx" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="21" RenderTransformOrigin="0.5,0.5" Canvas.Top="26" Canvas.Left="3"/>
             <TextBlock x:Name="textBlock2_Copy3" TextWrapping="Wrap" Text="Rx" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="22" RenderTransformOrigin="0.5,0.5" Canvas.Top="55" Canvas.Left="3">
                 <TextBlock.RenderTransform>
                     <TransformGroup>
@@ -579,22 +651,14 @@
                     </TransformGroup>
                 </TextBlock.RenderTransform>
             </TextBlock>
-            <TextBlock TextWrapping="Wrap" Text="通信ログ vs 製品" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="184" RenderTransformOrigin="0.5,0.5"/>
-            <Label Content="" Height="1" Canvas.Left="1" Canvas.Top="20" Width="196" Background="#FF0388F7">
+            <TextBlock TextWrapping="Wrap" Text="通信ログ vs 製品" FontSize="16" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="184" RenderTransformOrigin="0.5,0.5" Canvas.Left="3" Canvas.Top="1"/>
+            <Label Content="" Height="1" Canvas.Left="1" Canvas.Top="21" Width="196" Background="#FF0388F7">
                 <Label.Effect>
                     <DropShadowEffect Color="#FF09A0F7" Direction="0" ShadowDepth="0" BlurRadius="20"/>
                 </Label.Effect>
             </Label>
-            <Polyline Points="0,0 25,0 30,10 190,10" Stroke="#FF0E85D6" StrokeThickness="1" Canvas.Left="2" Width="198" Canvas.Top="46" Height="26">
-                <Polyline.Effect>
-                    <DropShadowEffect Color="#FF7EC1F0" Direction="50" ShadowDepth="0"/>
-                </Polyline.Effect>
-            </Polyline>
-            <Polyline Points="0,0 25,0 30,10 190,10" Stroke="#FF0E85D6" StrokeThickness="1" Canvas.Left="2" Width="198" Canvas.Top="75" Height="26">
-                <Polyline.Effect>
-                    <DropShadowEffect Color="#FF7EC1F0" Direction="50" ShadowDepth="0"/>
-                </Polyline.Effect>
-            </Polyline>
+            <Polyline Points="0,0 25,0 30,10 190,10" Stroke="White" StrokeThickness="1" Canvas.Left="2" Width="198" Canvas.Top="46" Height="26"/>
+            <Polyline Points="0,0 25,0 30,10 190,10" Stroke="White" StrokeThickness="1" Canvas.Left="2" Width="198" Canvas.Top="75" Height="26"/>
         </Canvas>
 
 

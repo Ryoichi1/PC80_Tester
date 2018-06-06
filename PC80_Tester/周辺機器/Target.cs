@@ -58,8 +58,11 @@ namespace PC80_Tester
         //**************************************************************************
         //LPC1768を制御する 
         //**************************************************************************
-        public static bool SendData(string Data, int Wait = 3000, bool setLog = true)
+       public static bool SendData(string Data, int Wait = 700, bool setLog = true)
         {
+            int retryCount = 0;
+
+            RETRY:
             //送信処理
             try
             {
@@ -89,7 +92,11 @@ namespace PC80_Tester
             catch
             {
                 State.VmComm.RX_TARGET = "TimeoutErr";
-                return false;
+                if (++retryCount == 4)
+                    return false;
+
+                Thread.Sleep(400);
+                goto RETRY;
             }
             finally
             {

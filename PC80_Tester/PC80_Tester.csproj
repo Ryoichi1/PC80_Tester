@@ -162,10 +162,13 @@
     <Compile Include="DialogPic.xaml.cs">
       <DependentUpon>DialogPic.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Page\Config\CameraConf.xaml.cs">
-      <DependentUpon>CameraConf.xaml</DependentUpon>
+    <Compile Include="Page\Config\CameraLcdConf.xaml.cs">
+      <DependentUpon>CameraLcdConf.xaml</DependentUpon>
     </Compile>
     <Compile Include="Camera\Camera.cs" />
+    <Compile Include="Page\Config\CameraLedConf.xaml.cs">
+      <DependentUpon>CameraLedConf.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Page\Test\ラベル貼り付け.xaml.cs">
       <DependentUpon>ラベル貼り付け.xaml</DependentUpon>
     </Compile>
@@ -191,7 +194,6 @@
     <Compile Include="周辺機器\Target.cs" />
     <Compile Include="周辺機器\LPC1768.cs" />
     <Compile Include="周辺機器\R6441B.cs" />
-    <Compile Include="検査規格\CameraPropertyForDefault.cs" />
     <Compile Include="検査規格\CameraPropertyForLed.cs" />
     <Compile Include="検査規格\CameraPropertyForLcd.cs" />
     <Compile Include="Page\Config\Conf.xaml.cs">
@@ -249,7 +251,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Page\Config\CameraConf.xaml">
+    <Page Include="Page\Config\CameraLcdConf.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -262,6 +264,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Page\Config\Mente.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page\Config\CameraLedConf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -335,6 +341,9 @@
     <Resource Include="Resources\Pic\VR_L.jpg" />
     <Resource Include="Resources\Pic\VR_R.jpg" />
     <Resource Include="Resources\Pic\non2.png" />
+    <Content Include="Resources\Wav\Victory.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Wav\Alarm.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -373,15 +382,6 @@
       <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
       <VersionMajor>2</VersionMajor>
       <VersionMinor>7</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="Microsoft.Office.Interop.Excel">
-      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>9</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>

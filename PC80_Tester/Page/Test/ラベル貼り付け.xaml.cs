@@ -39,14 +39,24 @@ namespace PC80_Tester
         }
 
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            Flags.DialogPushed = false;
             SetLabel();
             ButtonReturn.Focus();
             (FindResource("BlinkButton") as Storyboard).Begin();
+            await General.CheckNextButton();
+            if (!Flags.DialogPushed)
+                後処理();
         }
 
         private void ButtonReturn_Click(object sender, RoutedEventArgs e)
+        {
+            Flags.DialogPushed = true;
+            後処理();
+        }
+
+        private void 後処理()
         {
             General.StopSound();
 
@@ -60,7 +70,9 @@ namespace PC80_Tester
             RefreshDataContextFromLabelForm();
 
             (FindResource("BlinkButton") as Storyboard).Stop();
-            //General.PlaySound(General.soundBattery);
+            General.PlaySound(General.soundSuccess);
+            Flags.PressOpenCheckBeforeTest = true;
+
         }
     }
 }

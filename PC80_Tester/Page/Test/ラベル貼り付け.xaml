@@ -32,10 +32,10 @@
                 </Setter>
             </Style>
         </Canvas.Resources>
-        <Image Height="539" Canvas.Left="25" Canvas.Top="97" Width="697" Source="/Resources/Pic/PC80シルク図.jpg" IsEnabled="False" Opacity="0.5"/>
-        <Label Height="40" Canvas.Left="471" Canvas.Top="502" Width="194" Background="#FF09F2FD" Foreground="#FF060606" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="1" Content="{Binding Serial}" FontSize="16" BorderBrush="#FF0074FF"/>
-        <Label x:Name="labelMessage" Content="デートコード、アイテム改版、Verラベルを貼り付けてください" Height="67" Canvas.Left="220" Canvas.Top="24" Width="1006" FontSize="44" FontFamily="Meiryo UI"/>
-        <Label Height="37" Canvas.Left="617" Canvas.Top="448" Width="39" Background="#FF09F2FD" Foreground="#FF060606" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="1" Content="{Binding Serial}" FontSize="16" BorderBrush="#FF0074FF"/>
+        <Image Height="495" Canvas.Left="24" Canvas.Top="141" Width="698" Source="/Resources/Pic/PC80シルク図.jpg" IsEnabled="False" Opacity="0.5"/>
+        <Label Height="37" Canvas.Left="462" Canvas.Top="512" Width="178" Background="#FF09F2FD" Foreground="#FF060606" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="1" Content="{Binding Serial}" FontSize="16" BorderBrush="#FF0074FF"/>
+        <Label x:Name="labelMessage" Content="デートコード、アイテム改版、Verラベルを貼付けたら&#xa;確認ボタンを押してください" Height="117" Canvas.Left="220" Canvas.Top="18" Width="896" FontSize="44" FontFamily="Meiryo UI"/>
+        <Label Height="34" Canvas.Left="596" Canvas.Top="466" Width="38" Background="#FF09F2FD" Foreground="#FF060606" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="1" Content="{Binding Serial}" FontSize="16" BorderBrush="#FF0074FF"/>
         <Button x:Name="ButtonReturn" Controls:ControlsHelper.ContentCharacterCasing="Normal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="65" Width="159" BorderBrush="#FFABD6EA" FontSize="30" Canvas.Left="24" Style="{DynamicResource AccentedSquareButtonStyle}" BorderThickness="1" ClipToBounds="True" Canvas.Top="22" RenderTransformOrigin="11.977,3.9" FontFamily="Segoe UI Light" IsEnabled="{Binding StartButtonEnable}" Content="確認" Click="ButtonReturn_Click" >
             <Button.Background>
                 <SolidColorBrush Color="#FF1B4F8D" Opacity="0.15"/>
@@ -44,6 +44,6 @@
                 <DropShadowEffect Color="#FF22F7F7" BlurRadius="50" Direction="0" ShadowDepth="0"/>
             </Button.Effect>
         </Button>
-        <Label Height="37" Canvas.Left="353" Canvas.Top="231" Width="39" Background="#FF09F2FD" Foreground="#FF060606" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="1" Content="{Binding Serial}" FontSize="16" BorderBrush="#FF0074FF"/>
+        <Label Height="38" Canvas.Left="354" Canvas.Top="262" Width="39" Background="#FF09F2FD" Foreground="#FF060606" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="1" Content="{Binding Serial}" FontSize="16" BorderBrush="#FF0074FF" RenderTransformOrigin="0.635,1.462"/>
     </Canvas>
 </Page>

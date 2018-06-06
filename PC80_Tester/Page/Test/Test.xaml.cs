@@ -28,8 +28,11 @@ namespace PC80_Tester
             // オブジェクト作成に必要なコードをこの下に挿入します。
             this.DataContext = State.VmTestStatus;
             Canvas検査データ.DataContext = State.VmTestResults;
-            CanvasImg1.DataContext = General.cam;
-            labelCamera.DataContext = General.cam;
+
+            CanvasImg1.DataContext = General.camLcd;
+            labelCamera1.DataContext = General.camLcd;
+            CanvasImg2.DataContext = General.camLed;
+            labelCamera2.DataContext = General.camLed;
 
             canvasCommIo.DataContext = State.VmComm;
             canvasCommTarget.DataContext = State.VmComm;
@@ -64,7 +67,6 @@ namespace PC80_Tester
             //FWバージョンの表示
             State.VmTestStatus.FwVer = State.Spec.FwVer;
             State.VmTestStatus.FwSum = State.Spec.FwSum;
-            State.VmTestStatus.StartButtonContent = "開始";
 
             State.VmTestStatus.RetryLabelVis = System.Windows.Visibility.Hidden;
 
@@ -73,6 +75,7 @@ namespace PC80_Tester
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            Flags.PressOpenCheckBeforeTest = true;
             //エラーインフォメーションページからテストページに遷移する場合は、
             //下記のif文を有効にする
             if (Flags.ShowErrInfo)
@@ -85,15 +88,12 @@ namespace PC80_Tester
                 SetUnitTest();
                 State.VmTestStatus.DecisionVisibility = System.Windows.Visibility.Hidden;
                 State.VmTestStatus.ErrInfoVisibility = System.Windows.Visibility.Hidden;
-                State.VmTestStatus.StartButtonContent = Constants.開始;
-                State.VmTestStatus.StartButtonEnable = true;
                 State.VmTestStatus.TestTime = "00:00";
                 State.VmTestStatus.IsActiveRing = false;
 
 
                 await State.testCommand.StartCheck();
             }
-            ButtonStop.Focus();
         }
 
         private void tbTestLog_TextChanged(object sender, TextChangedEventArgs e)
@@ -121,60 +121,16 @@ namespace PC80_Tester
         }
 
 
-
-
-        private void ButtonStop_Click(object sender, RoutedEventArgs e)
-        {
-            if (State.VmTestStatus.StartButtonContent == Constants.開始)
-            {
-                if (!Flags.EnableTestStart)
-                {
-                    return;
-                }
-
-                Flags.Click確認Button = true;
-            }
-            else if (State.VmTestStatus.StartButtonContent == Constants.停止)
-            {
-                Flags.ClickStopButton = true;
-                State.VmTestStatus.StartButtonEnable = false;
-            }
-            else if (State.VmTestStatus.StartButtonContent == Constants.確認)
-            {
-                Flags.Click確認Button = true;
-                State.VmTestStatus.StartButtonContent = Constants.開始;
-            }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            //General.MainIo.SendData1768("*IDN?");
-        }
-
         private void ButtonErrInfo_Click(object sender, RoutedEventArgs e)
         {
             Flags.ShowErrInfo = true;
             State.VmMainWindow.TabIndex = 3;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void ButtonStop_Click(object sender, RoutedEventArgs e)
         {
-            State.VmMainWindow.Flyout = true;
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            State.VmMainWindow.Flyout = false;
-        }
-
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            State.VmMainWindow.FlyoutSrc = Constants.PathVR_L;
-        }
-
-        private void Button_Click_4(object sender, RoutedEventArgs e)
-        {
-            State.VmMainWindow.FlyoutSrc = Constants.PathVR_R;
+            Flags.ClickStopButton = true;
+            State.VmTestStatus.ButtonStopEnable = false;
         }
     }
 }
